@@ -1,0 +1,151 @@
+El código `TableLayout` es ideal para organizar elementos en filas y columnas, similar a una tabla. Es especialmente útil cuando necesitas una estructura de datos clara y ordenada. A diferencia de otros diseños, cada fila es un `TableRow`, y cada elemento dentro de un `TableRow` se coloca en su propia columna.
+
+A continuación, te muestro un ejemplo práctico de cómo usar `TableLayout` en Android Studio, tanto en el archivo de diseño XML como en el código Java para su manipulación.
+
+-----
+
+### Descripción del Caso Práctico
+
+Crearemos un formulario de contacto simple usando un `TableLayout`. Este formulario tendrá dos filas:
+
+1.  **Fila 1:** Un `TextView` con la etiqueta "Nombre:" y un `EditText` para ingresar el nombre.
+2.  **Fila 2:** Un `TextView` con la etiqueta "Correo:" y un `EditText` para ingresar el correo electrónico.
+3.  **Fila 3:** Un `Button` para enviar el formulario.
+
+-----
+
+### 1\. Archivo de Diseño XML (`activity_main.xml`)
+
+Este archivo define la estructura de la tabla. El `TableLayout` se encarga de crear las columnas automáticamente, mientras que cada `TableRow` representa una fila.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="1"
+    android:padding="16dp"
+    android:gravity="center_horizontal"
+    tools:context=".MainActivity">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre:"
+            android:padding="8dp"/>
+
+        <EditText
+            android:id="@+id/nombre_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Ingresa tu nombre"
+            android:padding="8dp"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Correo:"
+            android:padding="8dp"/>
+
+        <EditText
+            android:id="@+id/correo_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Ingresa tu correo"
+            android:inputType="textEmailAddress"
+            android:padding="8dp"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/enviar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enviar"
+            android:layout_span="2"
+            android:layout_marginTop="16dp"/>
+
+    </TableRow>
+
+</TableLayout>
+```
+
+**Explicación del XML:**
+
+  * **`android:stretchColumns="1"`**: Este atributo en el `TableLayout` es fundamental. Le dice a la tabla que la **segunda columna** (los índices comienzan en 0) debe expandirse para ocupar todo el espacio horizontal restante. Esto hace que los `EditText` se estiren y se vean bien.
+  * **`TableRow`**: Cada `TableRow` es una fila individual. Las vistas que pongas dentro de ella se ubicarán una al lado de la otra.
+  * **`android:layout_span="2"`**: En el `Button`, este atributo le indica que debe ocupar **dos columnas**, lo que le permite centrarse correctamente debajo de los otros campos.
+
+-----
+
+### 2\. Archivo Java (`MainActivity.java`)
+
+En el código Java, simplemente cargamos el diseño XML y añadimos la lógica para manejar el clic del botón, mostrando un `Toast` con los datos ingresados.
+
+```java
+package com.curso.ej12linearlayout;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Cargar el diseño desde el archivo XML
+        setContentView(R.layout.activity_main);
+
+        // Obtener referencias a las vistas por su ID
+        EditText nombreEditText = findViewById(R.id.nombre_edit_text);
+        EditText correoEditText = findViewById(R.id.correo_edit_text);
+        Button enviarButton = findViewById(R.id.enviar_button);
+
+        // Configurar el OnClickListener para el botón
+        enviarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obtener el texto de los campos
+                String nombre = nombreEditText.getText().toString();
+                String correo = correoEditText.getText().toString();
+
+                // Crear el mensaje a mostrar en el Toast
+                String mensaje = "Formulario enviado:\nNombre: " + nombre + "\nCorreo: " + correo;
+
+                // Mostrar el Toast
+                Toast.makeText(MainActivity.this, mensaje, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+}
+```
+
+**Explicación del Código Java:**
+
+  * **`setContentView(R.layout.activity_main);`**: Esta línea conecta la actividad con el archivo de diseño XML, permitiendo que la interfaz se muestre.
+  * **`findViewById(...)`**: Se utiliza para encontrar las vistas del XML por su `id`.
+  * **`enviarButton.setOnClickListener(...)`**: Se configura el oyente de clics. Cuando el usuario presiona el botón, se ejecuta el código dentro del método `onClick()`.
+  * **`nombreEditText.getText().toString()`**: Se extrae el texto de los campos de entrada y se convierte a un `String`.
+  * **`Toast.makeText(...)`**: Se crea y se muestra un mensaje `Toast` con la información capturada.

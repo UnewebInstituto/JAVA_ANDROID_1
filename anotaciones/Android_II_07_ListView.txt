@@ -1,0 +1,105 @@
+
+### ¿Qué es un ListView?
+
+Un **ListView** es un componente de la interfaz de usuario que muestra una lista de elementos desplazable verticalmente. A diferencia de otros componentes, no maneja los datos por sí mismo; necesita un **adaptador** para conectar los datos (como una lista de strings o de objetos) con la vista. El adaptador se encarga de crear y reutilizar las vistas individuales de cada elemento de la lista de manera eficiente, lo que es crucial para el rendimiento de la aplicación, especialmente con listas largas.
+
+En resumen, un ListView es ideal cuando necesitas mostrar un conjunto de datos que puede variar en tamaño, como una lista de contactos, un menú de opciones o los resultados de una búsqueda.
+
+-----
+
+### Ejemplo de un ListView con una lista de Strings
+
+Aquí tienes un ejemplo práctico para mostrar una lista de nombres de frutas.
+
+#### 1\. Layout (archivo XML)
+
+Primero, define el **ListView** en tu archivo de diseño XML, por lo general `activity_main.xml`. Le damos un ID para poder referenciarlo en el código Java.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ListView
+        android:id="@+id/simpleListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#000000"
+        android:dividerHeight="1dp"/>
+
+</RelativeLayout>
+```
+
+-----
+
+#### 2\. Código Java (en `MainActivity.java`)
+
+En tu clase `MainActivity.java`, sigue estos pasos:
+
+1.  **Declara el ListView**: Crea una variable para el `ListView`.
+2.  **Inicializa el ListView**: Conéctalo con el ID que le diste en el XML.
+3.  **Prepara los datos**: Crea un `ArrayList` o un array de tipo `String[]` con los datos que quieres mostrar.
+4.  **Crea el Adaptador**: Usa un **ArrayAdapter**. Es la opción más sencilla para una lista de strings. El constructor del `ArrayAdapter` necesita tres cosas:
+      * **Contexto**: `this` (la actividad actual).
+      * **Recurso de Layout**: Un layout predefinido por Android para un solo ítem de la lista. Usamos `android.R.layout.simple_list_item_1`, que es un TextView simple.
+      * **Datos**: La lista de strings que preparaste.
+5.  **Establece el Adaptador**: Asigna el adaptador a tu `ListView` con `setAdapter()`.
+
+<!-- end list -->
+
+```java
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    // 1. Declara el ListView
+    ListView simpleListView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // 2. Inicializa el ListView
+        simpleListView = findViewById(R.id.simpleListView);
+
+        // 3. Prepara los datos
+        ArrayList<String> fruitList = new ArrayList<>();
+        fruitList.add("Manzana");
+        fruitList.add("Banana");
+        fruitList.add("Naranja");
+        fruitList.add("Fresa");
+        fruitList.add("Uva");
+        fruitList.add("Piña");
+
+        // 4. Crea el Adaptador
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                fruitList
+        );
+
+        // 5. Establece el Adaptador
+        simpleListView.setAdapter(arrayAdapter);
+
+        // Opcional: Maneja el clic en los elementos de la lista
+        simpleListView.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedFruit = (String) parent.getItemAtPosition(position);
+            Toast.makeText(getApplicationContext(), "Has seleccionado: " + selectedFruit, Toast.LENGTH_SHORT).show();
+        });
+    }
+}
+```
+
+Al ejecutar la aplicación, verás una lista desplazable de frutas. Cuando toques una fruta, aparecerá un mensaje emergente (`Toast`) con el nombre de la fruta que seleccionaste.
+
+Aunque **ListView** sigue siendo un componente importante, ten en cuenta que para aplicaciones modernas, **RecyclerView** es la opción preferida y más avanzada, ya que ofrece un mejor rendimiento y más flexibilidad, especialmente para listas con diseños más complejos.

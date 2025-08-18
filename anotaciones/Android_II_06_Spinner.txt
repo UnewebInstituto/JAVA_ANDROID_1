@@ -1,0 +1,154 @@
+Un **`Spinner`** en Android es un widget que proporciona una forma rápida de seleccionar un valor de un conjunto. Es similar a un menú desplegable en la web. Es ideal para listas de opciones cortas a medianas, como la selección de un país, una categoría o una unidad de medida.
+
+Aquí tienes un ejemplo completo de cómo usar un `Spinner` en un proyecto de Android Studio con Java.
+
+-----
+
+### Paso 1: Configurar el `activity_main.xml`
+
+Primero, agrega el `Spinner` a tu layout. También incluiremos un `TextView` para mostrar la opción seleccionada.
+
+Abre el archivo **`app/res/layout/activity_main.xml`** y añade el siguiente código:
+
+```xml
+<TextView
+    android:id="@+id/textViewTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Elige una ciudad:"
+    android:textSize="18sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toTopOf="@+id/spinnerCities"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_chainStyle="packed" />
+
+<Spinner
+    android:id="@+id/spinnerCities"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:entries="@array/cities_array"
+    app:layout_constraintBottom_toTopOf="@+id/textViewResult"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+
+<TextView
+    android:id="@+id/textViewResult"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:textSize="16sp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/spinnerCities" />
+```
+
+  * **`Spinner`**: Este es el control principal. Fíjate en la propiedad `android:entries`. Esto vincula el Spinner a un arreglo de strings que definiremos en el siguiente paso.
+
+-----
+
+### Paso 2: Crear el archivo de recursos de String (el arreglo de datos)
+
+Para que el Spinner tenga opciones para mostrar, necesitas crear un archivo de recursos con un arreglo de strings.
+
+1.  En la vista del proyecto, haz clic derecho en la carpeta **`res`** \> **`values`** \> **`New`** \> **`Values Resource File`**.
+2.  Nombra el archivo **`strings.xml`** (si aún no existe) y haz clic en **`OK`**.
+3.  Abre el archivo `strings.xml` y agrega el siguiente código dentro de las etiquetas `<resources>`:
+
+<!-- end list -->
+
+```xml
+<string-array name="cities_array">
+    <item>Madrid</item>
+    <item>Barcelona</item>
+    <item>Valencia</item>
+    <item>Sevilla</item>
+    <item>Bilbao</item>
+</string-array>
+```
+
+Aquí hemos creado un arreglo llamado `cities_array` con las opciones que el `Spinner` mostrará.
+
+-----
+
+### Paso 3: Implementar la lógica en `MainActivity.java`
+
+Ahora, vamos a escribir el código para escuchar los cambios de selección en el `Spinner` y actualizar el `TextView`.
+
+Abre el archivo **`app/java/com.tudominio.tuproyecto/MainActivity.java`** y añade el siguiente código:
+
+```java
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    Spinner spinnerCities;
+    TextView textViewResult;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // 1. Encontrar los elementos de la UI por su ID
+        spinnerCities = findViewById(R.id.spinnerCities);
+        textViewResult = findViewById(R.id.textViewResult);
+
+        // Opcional: Si no usas android:entries en el XML
+        // Crear un ArrayAdapter para vincular el arreglo de datos al Spinner
+        // ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cities_array, android.R.layout.simple_spinner_item);
+        // adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // spinnerCities.setAdapter(adapter);
+
+        // 2. Establecer un listener para el Spinner
+        spinnerCities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // 3. Obtener el valor de la opción seleccionada
+                String selectedCity = parent.getItemAtPosition(position).toString();
+
+                // 4. Actualizar el TextView con el resultado
+                textViewResult.setText("Ciudad seleccionada: " + selectedCity);
+
+                // Opcional: Mostrar un Toast
+                Toast.makeText(MainActivity.this, "Seleccionaste: " + selectedCity, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Se llama cuando no se selecciona ningún elemento (por ejemplo, si la selección se borra)
+            }
+        });
+    }
+}
+```
+
+### Explicación del Código en Java
+
+1.  **`findViewById()`**: Conectamos las variables de Java con los elementos del XML.
+2.  **`spinnerCities.setOnItemSelectedListener()`**: Este método es clave para el `Spinner`. Establece un "escuchador" que reacciona a los cambios en la selección del usuario.
+3.  **`onItemSelected()`**: Este es el método que se ejecuta cuando un elemento es seleccionado. Recibe varios parámetros, de los cuales `parent` (el `AdapterView` que lo contiene), `view` (la vista del elemento seleccionado), y `position` (la posición del elemento en la lista) son los más útiles.
+4.  **`parent.getItemAtPosition(position)`**: Con esta línea, obtenemos el valor del elemento que el usuario seleccionó.
+5.  **`textViewResult.setText(...)`**: Actualizamos el `TextView` para mostrar la selección.
+6.  **`onNothingSelected()`**: Este método es parte del `OnItemSelectedListener` y se debe implementar, aunque a menudo se deja vacío, ya que el `Spinner` siempre tiene un elemento seleccionado por defecto.
+
+-----
+
+### Paso 4: Probarlo en el Emulador
+
+1.  Ejecuta tu aplicación.
+2.  Haz clic en el `Spinner` para ver la lista desplegable.
+3.  Selecciona una de las ciudades.
+4.  Verás que el `TextView` y el `Toast` se actualizan con la ciudad que has seleccionado.

@@ -1,0 +1,145 @@
+El mismo resultado se logra de manera mucho más simple y común utilizando un archivo de diseño **XML**. Este es el enfoque preferido en el desarrollo Android.
+
+### Archivo de Diseño XML
+
+El archivo XML describe la estructura visual de la interfaz. No se necesita código para crear las vistas; solo se declaran y configuran sus atributos. Este archivo generalmente se encuentra en `app/res/layout/activity_main.xml`.
+
+Aquí está el código XML para el formulario de inicio de sesión:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Iniciar Sesión"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/username_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre de usuario"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/password_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Acceder"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
+
+</LinearLayout>
+```
+
+-----
+
+### Archivo Java (`MainActivity.java`)
+
+El código Java se simplifica drásticamente. Su única función es **cargar el archivo de diseño XML** y, si fuera necesario, manejar la lógica de los botones o de los campos de texto.
+
+```java
+package com.curso.ej12linearlayout;
+
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}
+```
+
+La línea `setContentView(R.layout.activity_main);` es la clave. Le indica a Android que debe "inflar" (leer e interpretar) el archivo `activity_main.xml` y mostrar el diseño resultante en la pantalla. Todas las vistas y sus propiedades (tamaño, texto, márgenes, etc.) ya están definidas en el XML, lo que hace que el código Java sea mucho más limpio y fácil de mantener.
+
+**************************
+MODIFICACIÓN A CONSIDERAR:
+**************************
+Para añadir un mensaje tipo Toast que muestre el nombre de usuario al presionar el botón de "Acceder", debes modificar tu archivo **`MainActivity.java`**.
+
+El proceso implica:
+
+1.  Obtener una referencia a las vistas del XML (`EditText` y `Button`).
+2.  Establecer un "escuchador de clics" (`setOnClickListener`) en el botón.
+3.  Dentro de la lógica del clic, obtener el texto del `EditText`.
+4.  Crear y mostrar el mensaje **Toast** con el texto obtenido.
+
+Aquí está el código de tu `MainActivity.java` con las modificaciones necesarias.
+
+```java
+package com.curso.ej12linearlayout;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Obtener referencias a las vistas del XML por su ID
+        EditText usernameEditText = findViewById(R.id.username_edit_text);
+        Button loginButton = findViewById(R.id.login_button);
+
+        // Configurar un OnClickListener para el botón
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obtener el texto ingresado en el campo de usuario
+                String username = usernameEditText.getText().toString();
+
+                // Crear y mostrar el mensaje Toast
+                Toast.makeText(MainActivity.this, "Hola " + username + ", ¡bienvenido!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
+```
+
+-----
+
+### Explicación de los Cambios
+
+  * **`import android.widget.Toast;`**: Se añade la importación para poder utilizar la clase `Toast`.
+  * **`EditText usernameEditText = findViewById(R.id.username_edit_text);`**: Esta línea busca en el diseño XML (`activity_main.xml`) una vista que tenga el `id` **`username_edit_text`** y crea una referencia a ella. De manera similar, se hace para el `loginButton`.
+  * **`loginButton.setOnClickListener(...)`**: Este método "escucha" los clics en el botón. Cuando el usuario lo presiona, se ejecuta el código dentro del método `onClick`.
+  * **`String username = usernameEditText.getText().toString();`**: `usernameEditText.getText()` obtiene el contenido del campo de texto como un objeto editable. `.toString()` lo convierte en un `String` para que pueda ser manipulado.
+  * **`Toast.makeText(...)`**: Este es el método para crear un mensaje `Toast`. Sus argumentos son:
+      * `MainActivity.this`: El **contexto** de la aplicación.
+      * `"Hola " + username + ", ¡bienvenido!"`: El **texto** que se mostrará. Se concatena el `String` del nombre de usuario.
+      * `Toast.LENGTH_SHORT`: La **duración** del mensaje, en este caso, corta.
+  * **`.show()`**: Es necesario llamar a este método para que el `Toast` se muestre en pantalla.

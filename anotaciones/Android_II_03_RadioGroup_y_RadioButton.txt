@@ -1,0 +1,149 @@
+¡Claro\! Aquí tienes un ejemplo completo de cómo usar `RadioGroup` y `RadioButton` en un proyecto de Android Studio con Java. Estos elementos son perfectos para ofrecer al usuario una selección de opciones mutuamente excluyentes, donde solo una puede ser elegida a la vez.
+
+-----
+
+### Paso 1: Configurar el `activity_main.xml`
+
+Primero, necesitas definir la interfaz de usuario. El `RadioGroup` actúa como un contenedor para los `RadioButton`s, asegurando que solo uno de ellos pueda estar seleccionado al mismo tiempo. También agregaremos un `TextView` para mostrar la opción elegida por el usuario.
+
+Abre el archivo **`app/res/layout/activity_main.xml`** y añade el siguiente código dentro de tu layout principal (por ejemplo, `ConstraintLayout`):
+
+```xml
+<TextView
+    android:id="@+id/textViewTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Elige tu lenguaje de programación favorito:"
+    android:textSize="18sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_chainStyle="packed" />
+
+<RadioGroup
+    android:id="@+id/radioGroup"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    app:layout_constraintBottom_toTopOf="@+id/textViewResult"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/textViewTitle">
+
+    <RadioButton
+        android:id="@+id/radioButtonKotlin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kotlin"
+        android:checked="true"/>
+
+    <RadioButton
+        android:id="@+id/radioButtonJava"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Java" />
+
+    <RadioButton
+        android:id="@+id/radioButtonPython"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Python" />
+
+</RadioGroup>
+
+<TextView
+    android:id="@+id/textViewResult"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:textSize="16sp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+```
+
+  * **`RadioGroup`**: Este es el contenedor. Cuando un `RadioButton` dentro de él es seleccionado, los demás se deseleccionan automáticamente.
+  * **`RadioButton`**: Representa una opción individual. Hemos incluido tres, con el `android:checked="true"` para que **Kotlin** esté seleccionado por defecto al iniciar la aplicación.
+  * **`TextView`**: Es donde mostraremos el resultado de la selección del usuario.
+
+-----
+
+### Paso 2: Implementar la lógica en `MainActivity.java`
+
+Ahora, vamos a escribir el código para escuchar los cambios de selección en el `RadioGroup` y actualizar el `TextView` con la opción elegida.
+
+Abre el archivo **`app/java/com.tudominio.tuproyecto/MainActivity.java`** y añade el siguiente código:
+
+```java
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    RadioGroup radioGroup;
+    TextView textViewResult;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // 1. Encontrar los elementos de la UI por su ID
+        radioGroup = findViewById(R.id.radioGroup);
+        textViewResult = findViewById(R.id.textViewResult);
+
+        // 2. Establecer un listener para el RadioGroup
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // 3. Determinar qué RadioButton fue seleccionado
+                RadioButton checkedRadioButton = findViewById(checkedId);
+                String selectedText = checkedRadioButton.getText().toString();
+
+                // 4. Actualizar el TextView con el resultado
+                textViewResult.setText("Has seleccionado: " + selectedText);
+
+                // Opcional: También puedes mostrar un Toast
+                Toast.makeText(MainActivity.this, "Has seleccionado: " + selectedText, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Opcional: Mostrar el valor inicial
+        int initialCheckedId = radioGroup.getCheckedRadioButtonId();
+        if (initialCheckedId != -1) {
+            RadioButton initialRadioButton = findViewById(initialCheckedId);
+            String initialText = initialRadioButton.getText().toString();
+            textViewResult.setText("Has seleccionado: " + initialText);
+        }
+    }
+}
+```
+
+### Explicación del Código en Java
+
+1.  **`findViewById()`**: Conectamos las variables de Java (`radioGroup`, `textViewResult`) con los elementos de la interfaz de usuario del XML.
+2.  **`radioGroup.setOnCheckedChangeListener()`**: Este es el método clave. Establece un "escuchador de cambios" para el `RadioGroup`. El código dentro de `onCheckedChanged` se ejecutará cada vez que el usuario seleccione una nueva opción.
+3.  **`onCheckedChanged(RadioGroup group, int checkedId)`**: Este método recibe dos parámetros:
+      * `group`: La referencia al `RadioGroup` que disparó el evento.
+      * `checkedId`: El ID del `RadioButton` que ahora está seleccionado. Este es el dato más importante que usaremos.
+4.  **`findViewById(checkedId)`**: Usamos el ID recibido para obtener la referencia al `RadioButton` que ha sido seleccionado.
+5.  **`checkedRadioButton.getText().toString()`**: Obtenemos el texto del `RadioButton` seleccionado.
+6.  **`textViewResult.setText(...)`**: Actualizamos el texto del `TextView` para reflejar la selección del usuario.
+
+-----
+
+### Paso 3: Probarlo en el Emulador
+
+1.  Ejecuta tu aplicación en el emulador o en un dispositivo físico.
+2.  Verás los tres `RadioButton`s y el texto "Has seleccionado: Kotlin" abajo, ya que es el valor inicial.
+3.  Haz clic en **Java** o **Python**. Verás cómo el `RadioButton` correspondiente se marca y cómo el texto de abajo se actualiza inmediatamente.
+
+Este ejemplo te muestra cómo manejar la selección del usuario con `RadioGroup` y `RadioButton` de una manera eficiente y reactiva, una habilidad fundamental en el desarrollo de Android.

@@ -1,0 +1,383 @@
+Disculpa, parece que mi respuesta anterior no fue del todo completa. Permíteme reanudar mi rol como experto en Android Studio y proporcionarte una guía más detallada y procedimental, con ejemplos de código y los pasos exactos para desarrollar el contenido que mencionaste.
+
+-----
+
+### **Menús y Submenús Básicos**
+
+Los menús de opciones te permiten ofrecer acciones en la barra de acción (Action Bar) de tu actividad.
+
+**Procedimiento de Desarrollo:**
+
+1.  **Crear el recurso de menú**: En el panel de proyecto, navega a `res/menu/`. Si la carpeta no existe, créala. Haz clic derecho en `menu` y selecciona **New \> Menu Resource File**. Nombra el archivo `main_menu.xml`.
+
+2.  **Definir los elementos del menú**: Abre `main_menu.xml` y añade los elementos (`<item>`) y submenús (`<menu>`) que desees.
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+        <item
+            android:id="@+id/action_search"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="Buscar"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/action_settings"
+            android:title="Configuración" />
+        <item
+            android:id="@+id/action_file"
+            android:title="Archivo">
+            <menu>
+                <item
+                    android:id="@+id/action_new"
+                    android:title="Nuevo" />
+                <item
+                    android:id="@+id/action_open"
+                    android:title="Abrir" />
+            </menu>
+        </item>
+    </menu>
+    ```
+
+3.  **Inflar el menú en tu `Activity`**: Abre tu `MainActivity.java` y sobrescribe el método `onCreateOptionsMenu`.
+
+    ```java
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+    ```
+
+4.  **Manejar las selecciones del menú**: Sobrescribe el método `onOptionsItemSelected` para definir la acción que ocurre cuando un usuario selecciona una opción del menú.
+
+    ```java
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_search) {
+            Toast.makeText(this, "Buscar seleccionado", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_settings) {
+            Toast.makeText(this, "Configuración seleccionada", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        // ...manejar otros items
+        return super.onOptionsItemSelected(item);
+    }
+    ```
+
+-----
+
+### **Menús Contextuales**
+
+Los menús contextuales son para acciones específicas de un `View` y se muestran cuando el usuario mantiene pulsado ese elemento.
+
+**Procedimiento de Desarrollo:**
+
+1.  **Crear el recurso de menú contextual**: Crea un nuevo archivo de menú llamado `context_menu.xml` en `res/menu/`.
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:id="@+id/context_edit" android:title="Editar" />
+        <item android:id="@+id/context_delete" android:title="Eliminar" />
+    </menu>
+    ```
+
+2.  **Registrar el `View` en tu `Activity`**: En el método `onCreate` de tu `MainActivity.java`, identifica el `View` (por ejemplo, un `TextView` o `ListView`) y regístralo.
+
+    ```java
+    TextView myTextView = findViewById(R.id.my_text_view);
+    registerForContextMenu(myTextView);
+    ```
+
+3.  **Inflar y manejar el menú**: Sobrescribe `onCreateContextMenu` para inflar el menú y `onContextItemSelected` para manejar los clics.
+
+    ```java
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.context_edit) {
+            Toast.makeText(this, "Editar seleccionado", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (itemId == R.id.context_delete) {
+            Toast.makeText(this, "Eliminar seleccionado", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+    ```
+
+-----
+
+### **Bases de datos: SQLite**
+
+**Procedimiento de Desarrollo:**
+
+1.  **Crear la clase `SQLiteOpenHelper`**: Crea una nueva clase Java, por ejemplo `MiBaseDeDatosHelper.java`, que herede de `SQLiteOpenHelper`. Esta clase gestionará la creación y actualización de tu base de datos.
+
+2.  **Sobrescribir los métodos clave**: Implementa el constructor y los métodos `onCreate` y `onUpgrade`.
+
+    ```java
+    public class MiBaseDeDatosHelper extends SQLiteOpenHelper {
+        public static final int DATABASE_VERSION = 1;
+        public static final String DATABASE_NAME = "MiApp.db";
+        
+        private static final String SQL_CREATE_ENTRIES =
+            "CREATE TABLE usuarios (id INTEGER PRIMARY KEY, nombre TEXT, email TEXT)";
+        
+        private static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS usuarios";
+
+        public MiBaseDeDatosHelper(Context context) {
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL(SQL_CREATE_ENTRIES);
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            db.execSQL(SQL_DELETE_ENTRIES);
+            onCreate(db);
+        }
+    }
+    ```
+
+3.  **Insertar, actualizar, eliminar y consultar**: Desde tu `Activity` u otro componente, usa una instancia de tu `MiBaseDeDatosHelper` para obtener una base de datos escribible o legible y realizar operaciones.
+
+      * **Inserción**:
+
+        ```java
+        MiBaseDeDatosHelper dbHelper = new MiBaseDeDatosHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("nombre", "Ana García");
+        values.put("email", "ana.garcia@example.com");
+
+        long newRowId = db.insert("usuarios", null, values);
+        db.close();
+        ```
+
+      * **Consulta y recuperación de registros**:
+
+        ```java
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.query("usuarios", null, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
+                // ...
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        ```
+
+      * **Actualización y Eliminación**: Sigue una lógica similar usando `db.update(...)` y `db.delete(...)`.
+
+-----
+
+### **Ficheros en Android: Memoria Interna y Externa**
+
+**Procedimiento de Desarrollo:**
+
+1.  **Escribir y leer en la Memoria Interna**: Usa los métodos `openFileOutput` y `openFileInput` de la clase `Context`. No se necesitan permisos adicionales.
+
+    ```java
+    // Escribir en memoria interna
+    String filename = "mi_archivo_interno.txt";
+    String fileContents = "Contenido de prueba";
+    try (FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE)) {
+        fos.write(fileContents.getBytes());
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    // Leer de memoria interna
+    try (FileInputStream fis = openFileInput(filename);
+         InputStreamReader isr = new InputStreamReader(fis);
+         BufferedReader br = new BufferedReader(isr)) {
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        String content = sb.toString();
+        // ...
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    ```
+
+2.  **Manejar la Memoria Externa**:
+
+      * **Permiso en `AndroidManifest.xml`**:
+
+        ```xml
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+        ```
+
+      * **Solicitar permisos en tiempo de ejecución (para Android 6.0+)**: Usa `ActivityCompat.requestPermissions`.
+
+      * **Obtener el directorio y trabajar con el archivo**:
+
+        ```java
+        // Verificar si el almacenamiento externo está disponible
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            // Escribir en memoria externa (directorio público)
+            File file = new File(getExternalFilesDir(null), "mi_archivo_externo.txt");
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                fos.write("Contenido externo".getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        ```
+
+-----
+
+### **Uso de Cámara, Video, Audio**
+
+**Procedimiento de Desarrollo:**
+
+1.  **Declarar permisos en el `AndroidManifest.xml`**:
+
+    ```xml
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    ```
+
+2.  **Solicitar permisos de cámara en tiempo de ejecución**:
+
+    ```java
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 100);
+    }
+    ```
+
+3.  **Lanzar un `Intent` para capturar una imagen**:
+
+    ```java
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+    ```
+
+4.  **Procesar el resultado en `onActivityResult`**:
+
+    ```java
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            // Aquí puedes mostrar la imagen en un ImageView
+        }
+    }
+    ```
+
+    Para vídeo y audio, el procedimiento es similar, utilizando `MediaStore.ACTION_VIDEO_CAPTURE` o `MediaStore.ACTION_RECORD_SOUND`.
+
+-----
+
+### **Google Maps y GPS**
+
+**Procedimiento de Desarrollo:**
+
+1.  **Configurar la API de Google Maps**:
+
+      * En la Consola de API de Google Cloud, habilita la **Maps SDK for Android** y crea una **clave de API**.
+      * Añade la clave en el `AndroidManifest.xml`:
+        ```xml
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="TU_CLAVE_DE_API_AQUI" />
+        ```
+
+2.  **Añadir las dependencias en `build.gradle`**:
+
+    ```groovy
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    ```
+
+3.  **Crear el diseño del mapa**: En el XML de tu `Activity`, añade un `SupportMapFragment`.
+
+    ```xml
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    ```
+
+4.  **Manejar el mapa en tu `Activity`**: Implementa la interfaz `OnMapReadyCallback`.
+
+    ```java
+    public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+        private GoogleMap mMap;
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_maps);
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+        }
+
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            mMap = googleMap;
+            // Añadir un marcador, configurar la cámara, etc.
+            LatLng sydney = new LatLng(-34, 151);
+            mMap.addMarker(new MarkerOptions().position(sydney).title("Marcador en Sídney"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        }
+    }
+    ```
+
+5.  **Obtener la ubicación del GPS (Fused Location Provider)**:
+
+      * **Permiso en `AndroidManifest.xml`**:
+        ```xml
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        ```
+      * **Solicitar permisos de ubicación en tiempo de ejecución**.
+      * **Obtener la ubicación**:
+        ```java
+        private FusedLocationProviderClient fusedLocationClient;
+
+        // En onCreate()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        // En un método que se llama después de obtener los permisos
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+            if (location != null) {
+                // Aquí tienes la latitud y longitud
+                double lat = location.getLatitude();
+                double lon = location.getLongitude();
+                // Actualiza el mapa con la nueva ubicación
+            }
+        });
+        ```

@@ -1,0 +1,27 @@
+Contenido del Curso de Android Nivel I
+¿Qué es Android?    Historia
+
+Tipo de Aplicaciones Móviles
+Aplicaciones Nativas
+Aplicación Web adaptada
+Aplicaciones Web Nativas (aplicaciones hibridas)
+Estudio comparativo entre los diferentes tipos de aplicaciones para móviles
+Historial de actualizaciones Android
+
+Versiones
+
+Arquitectura
+Descarga y configuración del entorno de desarrollo
+Requerimientos del Sistema
+Instalar y Actualizar componentes del DSK de Android
+Creación de un proyecto Android con Android Studio
+Estructura de un proyecto en Android
+Fichero ANDROIDMANIFEST.XML
+Cómo crear y configurar un Android Virtual Device en Android Studio
+Creación de nuestra primera APP Android
+Capturando el click de un botón
+Actividades (Activity)
+
+Comportamiento de una Activity cuando otra la sustituye
+Ciclo de vida de una Activity
+Creación de una Activity

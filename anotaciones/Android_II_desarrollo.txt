@@ -1,0 +1,423 @@
+
+## 1\. Conceptos Básicos
+
+### Icono de la Aplicación
+
+El ícono es la imagen que representa tu aplicación en el dispositivo del usuario. Para cambiarlo, debes modificar el archivo `AndroidManifest.xml` y los archivos de íconos en la carpeta `res/mipmap-xxxhdpi`.
+
+**Ejemplo:**
+
+1.  En tu archivo `AndroidManifest.xml`, busca la etiqueta `<application>`.
+2.  Cambia el atributo `android:icon` a `@mipmap/ic_launcher_round`. Si ya existe, puedes dejarlo así o apuntar a otro ícono.
+3.  Crea tus propios íconos y colócalos en las carpetas `mipmap` correspondientes.
+
+### Toast (Notificaciones Emergentes)
+
+Un `Toast` es una pequeña ventana emergente que muestra un mensaje breve al usuario. Es ideal para notificaciones rápidas que no requieren interacción.
+
+**Ejemplo:**
+
+```java
+// Dentro de un método o un OnClickListener
+Context context = getApplicationContext();
+CharSequence text = "¡Hola, soy un Toast!";
+int duration = Toast.LENGTH_SHORT;
+
+Toast toast = Toast.makeText(context, text, duration);
+toast.show();
+```
+
+  * `Toast.makeText()` crea un objeto `Toast`.
+  * `context` es el contexto de la aplicación.
+  * `text` es el mensaje que se mostrará.
+  * `duration` puede ser `Toast.LENGTH_SHORT` o `Toast.LENGTH_LONG`.
+  * `.show()` muestra la notificación en la pantalla.
+
+### Controles
+
+#### RadioGroup y RadioButton
+
+Un `RadioGroup` agrupa varios `RadioButton`. El usuario solo puede seleccionar uno a la vez dentro de un grupo.
+
+**Ejemplo:**
+En tu archivo XML (layout):
+
+```xml
+<RadioGroup
+    android:id="@+id/radioGroup"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    
+    <RadioButton
+        android:id="@+id/radioButton_opcion1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Opción 1" />
+    
+    <RadioButton
+        android:id="@+id/radioButton_opcion2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Opción 2" />
+</RadioGroup>
+```
+
+En tu archivo Java:
+
+```java
+RadioGroup radioGroup = findViewById(R.id.radioGroup);
+radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        if (checkedId == R.id.radioButton_opcion1) {
+            // Lógica para la Opción 1
+        } else if (checkedId == R.id.radioButton_opcion2) {
+            // Lógica para la Opción 2
+        }
+    }
+});
+```
+
+-----
+
+#### Control CheckBox
+
+Un `CheckBox` permite al usuario seleccionar o deseleccionar una opción. A diferencia de `RadioButton`, se pueden seleccionar múltiples `CheckBox` al mismo tiempo.
+
+**Ejemplo:**
+En tu archivo XML:
+
+```xml
+<CheckBox
+    android:id="@+id/checkBox_acepto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Acepto los términos y condiciones" />
+```
+
+En tu archivo Java:
+
+```java
+CheckBox checkBox = findViewById(R.id.checkBox_acepto);
+checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+    if (isChecked) {
+        // Lógica cuando se selecciona
+    } else {
+        // Lógica cuando se deselecciona
+    }
+});
+```
+
+-----
+
+#### Control ImageButton
+
+Un `ImageButton` es un botón que muestra una imagen en lugar de texto.
+
+**Ejemplo:**
+En tu archivo XML:
+
+```xml
+<ImageButton
+    android:id="@+id/imageButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_launcher_foreground" />
+```
+
+En tu archivo Java:
+
+```java
+ImageButton imageButton = findViewById(R.id.imageButton);
+imageButton.setOnClickListener(v -> {
+    // Lógica cuando se hace clic en la imagen
+    Toast.makeText(this, "¡Has hecho clic en la imagen!", Toast.LENGTH_SHORT).show();
+});
+```
+
+-----
+
+#### Control Spinner
+
+Un `Spinner` proporciona un menú desplegable para seleccionar un elemento de una lista.
+
+**Ejemplo:**
+En tu archivo XML:
+
+```xml
+<Spinner
+    android:id="@+id/spinner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+```
+
+En tu archivo Java:
+
+```java
+Spinner spinner = findViewById(R.id.spinner);
+String[] paises = {"Argentina", "Brasil", "Chile"};
+ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, paises);
+adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+spinner.setAdapter(adapter);
+
+spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String paisSeleccionado = parent.getItemAtPosition(position).toString();
+        Toast.makeText(MainActivity.this, "País seleccionado: " + paisSeleccionado, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // No hacer nada
+    }
+});
+```
+
+-----
+
+#### Control ListView (para una lista de String)
+
+Un `ListView` es una vista que muestra una lista de elementos. Es muy útil para mostrar grandes cantidades de datos.
+
+**Ejemplo:**
+En tu archivo XML:
+
+```xml
+<ListView
+    android:id="@+id/listView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+```
+
+En tu archivo Java:
+
+```java
+ListView listView = findViewById(R.id.listView);
+String[] frutas = {"Manzana", "Pera", "Naranja", "Banana"};
+ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, frutas);
+listView.setAdapter(adapter);
+
+listView.setOnItemClickListener((parent, view, position, id) -> {
+    String frutaSeleccionada = (String) parent.getItemAtPosition(position);
+    Toast.makeText(MainActivity.this, "Has seleccionado: " + frutaSeleccionada, Toast.LENGTH_SHORT).show();
+});
+```
+
+-----
+
+## 2\. Layouts
+
+Los `Layouts` son los contenedores que organizan la disposición de los elementos de la interfaz de usuario.
+
+### LinearLayout
+
+El `LinearLayout` organiza sus elementos en una fila o columna. Se especifica la orientación con el atributo `android:orientation="horizontal|vertical"`.
+
+**Ejemplo:**
+
+```xml
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Botón 1" />
+    
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Botón 2" />
+
+</LinearLayout>
+```
+
+-----
+
+### TableLayout
+
+El `TableLayout` organiza los elementos en filas (`TableRow`) y columnas, similar a una tabla HTML.
+
+**Ejemplo:**
+
+```xml
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fila 1, Columna 1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fila 1, Columna 2" />
+    </TableRow>
+    
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fila 2, Columna 1" />
+    </TableRow>
+
+</TableLayout>
+```
+
+-----
+
+### FrameLayout
+
+El `FrameLayout` es el `layout` más simple. Cada vista hija se coloca en la esquina superior izquierda del `layout`, y las nuevas vistas se superponen a las anteriores.
+
+**Ejemplo:**
+
+```xml
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/fondo"
+        android:scaleType="centerCrop" />
+        
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Texto superpuesto" />
+
+</FrameLayout>
+```
+
+-----
+
+### ScrollView en los LinearLayout
+
+El `ScrollView` permite que el contenido de un `layout` se pueda desplazar si es más grande que la pantalla. El `ScrollView` solo puede tener un único hijo directo.
+
+**Ejemplo:**
+
+```xml
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        
+        </LinearLayout>
+
+</ScrollView>
+```
+
+-----
+
+## 3\. Componente Action Bar
+
+La `Action Bar` (ahora conocida como `Toolbar`) es un componente que se encuentra en la parte superior de la pantalla y ofrece características esenciales como el título de la aplicación, navegación y botones de acción.
+
+### Action Bar (Básica)
+
+Para una `Action Bar` básica, simplemente necesitas asegurarte de que tu `Activity` extienda de `AppCompatActivity` y uses un tema compatible con `Action Bar` (la mayoría de los temas predeterminados lo hacen).
+
+**Ejemplo:**
+En `MainActivity.java`:
+
+```java
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        // Obtener la Action Bar y establecer un título
+        getSupportActionBar().setTitle("Mi Aplicación");
+    }
+}
+```
+
+-----
+
+### Action Bar (Con botones de Acción)
+
+Para agregar botones de acción, debes crear un archivo de menú (`menu/main_menu.xml`) y luego inflarlo en tu `Activity`.
+
+**Ejemplo:**
+Archivo `res/menu/main_menu.xml`:
+
+```xml
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <item
+        android:id="@+id/action_settings"
+        android:title="Configuración"
+        android:icon="@android:drawable/ic_menu_preferences"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_search"
+        android:title="Buscar"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always" />
+
+</menu>
+```
+
+En `MainActivity.java`:
+
+```java
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main_menu, menu);
+    return true;
+}
+
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+    int id = item.getItemId();
+    
+    if (id == R.id.action_settings) {
+        // Lógica para el botón de configuración
+        Toast.makeText(this, "Configuración seleccionada", Toast.LENGTH_SHORT).show();
+        return true;
+    } else if (id == R.id.action_search) {
+        // Lógica para el botón de búsqueda
+        Toast.makeText(this, "Búsqueda seleccionada", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+    
+    return super.onOptionsItemSelected(item);
+}
+```
+
+-----
+
+### Action Bar (Hide & Show)
+
+Puedes ocultar y mostrar la `Action Bar` programáticamente en cualquier momento. Esto es útil para pantallas a pantalla completa o para experiencias de usuario personalizadas.
+
+**Ejemplo:**
+En `MainActivity.java`:
+
+```java
+// Ocultar la Action Bar
+getSupportActionBar().hide();
+
+// Mostrar la Action Bar
+getSupportActionBar().show();
+```

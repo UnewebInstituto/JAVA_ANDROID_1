@@ -1,0 +1,19 @@
+    Contenido del Curso de Android II:
+Conceptos Básicos
+• Icono de la aplicación
+• Toast (notificaciones emergentes)
+• Controles
+    o RadioGroup y RadioButton
+    o Control CheckBox
+    o Control ImageButton
+    o Control Spinner
+    o Control ListView (para una lista de String)
+• Layouts
+    o LinearLayout
+    o TableLayout
+    o FrameLayout
+    o ScrollView en los LinearLayout
+• Componente Action Bar
+    o Action Bar (Básica)
+    o Action Bar (Con botones de Acción)
+    o Action Bar (Hide & Show)

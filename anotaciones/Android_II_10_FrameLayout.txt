@@ -1,0 +1,94 @@
+### ¿Qué es FrameLayout?
+
+`FrameLayout` es el `ViewGroup` más simple de Android. Se utiliza para mostrar **un solo elemento hijo** en la pantalla. Aunque esto parece limitado, su verdadero poder reside en la capacidad de **apilar vistas una encima de la otra**, lo que lo hace ideal para crear superposiciones (overlays), como un indicador de carga sobre un contenido, un menú desplegable o una imagen con un texto encima.
+
+Cada vista que se añade a un `FrameLayout` se dibuja en una nueva capa, con el elemento más reciente superpuesto a los anteriores. Por defecto, las vistas se apilan en la esquina superior izquierda, pero puedes controlar su posición con el atributo `android:layout_gravity`.
+
+-----
+
+### Ejemplo Práctico: Una imagen con un texto superpuesto
+
+En este ejemplo, crearemos un `FrameLayout` que contiene una imagen de fondo y un `TextView` centrado sobre ella.
+
+### 1\. Archivo de Diseño XML (`activity_main.xml`)
+
+Aquí se define la estructura visual. Usaremos un `FrameLayout` como contenedor principal.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/background_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tu_imagen_de_fondo" /> 
+    <TextView
+        android:id="@+id/overlay_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#80000000"
+        android:padding="16dp"
+        android:text="¡Hola desde FrameLayout!"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+</FrameLayout>
+```
+
+**Explicación del XML:**
+
+  * **`FrameLayout`**: El contenedor principal. Su tamaño es `match_parent` para ocupar toda la pantalla.
+  * **`ImageView`**: La primera vista añadida. Actúa como la capa de fondo. El atributo `android:scaleType="centerCrop"` asegura que la imagen cubra toda la vista sin distorsionarse. **Nota**: Debes tener un archivo de imagen, por ejemplo, `tu_imagen_de_fondo.jpg`, en tu directorio `res/drawable`.
+  * **`TextView`**: La segunda vista añadida. Se apila encima del `ImageView`. `android:layout_gravity="center"` la centra horizontal y verticalmente sobre la imagen. El `android:background` semitransparente (`#80000000`) mejora la legibilidad del texto.
+
+-----
+
+### 2\. Archivo Java (`MainActivity.java`)
+
+En el código Java, simplemente cargamos el diseño XML. Si quieres, puedes añadir un `OnClickListener` para cambiar el texto o la imagen de forma dinámica.
+
+```java
+package com.curso.ejemplos;
+
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        // Cargar el diseño desde el archivo XML
+        setContentView(R.layout.activity_main);
+
+        // Opcional: Obtener una referencia al TextView para interactuar con él
+        TextView overlayTextView = findViewById(R.id.overlay_text_view);
+
+        // Opcional: Configurar un clic en el texto superpuesto
+        overlayTextView.setOnClickListener(v -> {
+            Toast.makeText(this, "¡Has hecho clic en el texto superpuesto!", Toast.LENGTH_SHORT).show();
+            // Puedes cambiar el texto o la imagen aquí
+            overlayTextView.setText("¡Texto cambiado!");
+        });
+    }
+}
+```
+
+**Explicación del Código Java:**
+
+  * **`setContentView(R.layout.activity_main);`**: Esta línea carga y muestra la interfaz de usuario definida en el XML.
+  * **`findViewById(R.id.overlay_text_view)`**: Obtiene una referencia al `TextView` para poder interactuar con él desde el código.
+  * **`overlayTextView.setOnClickListener(...)`**: Se añade un listener de clic. Cuando el usuario presione el texto, se ejecutará el código para mostrar un `Toast` y cambiar el texto.

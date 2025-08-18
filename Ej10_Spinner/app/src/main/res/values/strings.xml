@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Ej10Spinner</string>
+    <string-array name="cities_array">
+        <item>Madrid</item>
+        <item>Barcelona</item>
+        <item>Valencia</item>
+        <item>Sevilla</item>
+        <item>Bilbao</item>
+    </string-array>
+</resources>

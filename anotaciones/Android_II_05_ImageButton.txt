@@ -1,0 +1,117 @@
+Un **`ImageButton`** es un control de interfaz de usuario que combina la funcionalidad de un `Button` con la capacidad de mostrar una imagen en lugar de texto. Es perfecto para crear botones con íconos, como un botón de "buscar", "compartir" o "favorito".
+
+Aquí tienes un ejemplo completo de cómo usar un `ImageButton` en un proyecto de Android Studio con Java.
+
+-----
+
+### Paso 1: Agregar el ícono al proyecto
+
+Primero, necesitas el ícono que mostrarás en el botón.
+
+1.  En Android Studio, haz clic derecho en la carpeta **`res`** \> **`New`** \> **`Vector Asset`**.
+2.  En el asistente, haz clic en el ícono del clip art (el robot de Android).
+3.  En la ventana de búsqueda, escribe algo como "search" o "share" para encontrar un ícono. Selecciona el que más te guste y haz clic en **`OK`**.
+4.  Elige el color del ícono (por ejemplo, blanco). Deja el nombre por defecto (`ic_action_name_search` o similar).
+5.  Haz clic en **`Next`** y luego en **`Finish`**.
+
+Android Studio creará un archivo `.xml` del ícono dentro de la carpeta **`res/drawable`**.
+
+-----
+
+### Paso 2: Configurar el `activity_main.xml`
+
+Ahora, vamos a agregar el `ImageButton` a tu layout. También incluiremos un `TextView` para mostrar un mensaje cuando se haga clic en el botón.
+
+Abre el archivo **`app/res/layout/activity_main.xml`** y añade el siguiente código:
+
+```xml
+<TextView
+    android:id="@+id/textViewMessage"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:text="¡Haz clic en el botón para buscar!"
+    android:textSize="18sp"
+    app:layout_constraintBottom_toTopOf="@+id/imageButtonSearch"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
+
+<ImageButton
+    android:id="@+id/imageButtonSearch"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:contentDescription="Botón de Búsqueda"
+    android:src="@drawable/ic_action_name_search"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+```
+
+  * **`android:src`**: Esta es la propiedad clave. Apunta al archivo del ícono que agregaste en el Paso 1 (en este caso, `ic_action_name_search`).
+  * **`android:background`**: Lo establecemos en `transparent` para evitar que el botón tenga un fondo predeterminado y solo se vea el ícono.
+  * **`android:contentDescription`**: Es importante para la accesibilidad. Describe el propósito del botón para los usuarios con lectores de pantalla.
+
+-----
+
+### Paso 3: Implementar la lógica en `MainActivity.java`
+
+Ahora, vamos a escribir la lógica para que el `ImageButton` sea interactivo y cambie el mensaje del `TextView` cuando se haga clic.
+
+Abre el archivo **`app/java/com.tudominio.tuproyecto/MainActivity.java`** y añade el siguiente código:
+
+```java
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    ImageButton imageButtonSearch;
+    TextView textViewMessage;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // 1. Encontrar los elementos de la UI por su ID
+        imageButtonSearch = findViewById(R.id.imageButtonSearch);
+        textViewMessage = findViewById(R.id.textViewMessage);
+
+        // 2. Establecer un listener para el ImageButton
+        imageButtonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 3. Cambiar el texto del TextView y mostrar un Toast
+                textViewMessage.setText("¡Búsqueda iniciada!");
+                Toast.makeText(MainActivity.this, "Iniciando búsqueda...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+}
+```
+
+### Explicación del Código en Java
+
+1.  **`findViewById()`**: Conectamos las variables de Java con los elementos de la interfaz de usuario en el XML.
+2.  **`imageButtonSearch.setOnClickListener()`**: Al igual que un `Button` normal, el `ImageButton` tiene un método `setOnClickListener()` que te permite ejecutar código cuando el usuario lo toca.
+3.  **`onClick()`**: Dentro de este método, hemos definido la acción que queremos que ocurra:
+      * El texto del `TextView` cambia para confirmar que se ha iniciado la acción.
+      * Aparece una notificación `Toast` para dar un feedback inmediato al usuario.
+
+-----
+
+### Paso 4: Probarlo en el Emulador
+
+1.  Ejecuta la aplicación.
+2.  Verás el ícono de búsqueda en el centro de la pantalla.
+3.  Haz clic en el ícono.
+4.  Verás que el texto de arriba cambia a "¡Búsqueda iniciada\!" y aparece una notificación `Toast` en la parte inferior.
+
+Con este ejemplo, puedes crear botones visualmente atractivos y funcionales que mejoren la experiencia de usuario de tu aplicación.

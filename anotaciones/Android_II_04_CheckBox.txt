@@ -1,0 +1,170 @@
+Los **`CheckBox`** son controles de interfaz de usuario que permiten al usuario seleccionar una o varias opciones de un conjunto, a diferencia de los `RadioButton`s que son mutuamente excluyentes.
+
+Aquí tienes un ejemplo completo de cómo usar `CheckBox` en un proyecto de Android Studio con Java.
+
+-----
+
+### Paso 1: Configurar el `activity_main.xml`
+
+Abre el archivo **`app/res/layout/activity_main.xml`** y agrega los siguientes elementos. Incluiremos varios `CheckBox` y un `TextView` para mostrar el resultado de las selecciones.
+
+```xml
+<TextView
+    android:id="@+id/textViewTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Elige tus intereses:"
+    android:textSize="18sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toTopOf="@+id/checkBoxMovies"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_chainStyle="packed" />
+
+<CheckBox
+    android:id="@+id/checkBoxMovies"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:text="Películas"
+    app:layout_constraintBottom_toTopOf="@+id/checkBoxMusic"
+    app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+    app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+
+<CheckBox
+    android:id="@+id/checkBoxMusic"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Música"
+    app:layout_constraintBottom_toTopOf="@+id/checkBoxGames"
+    app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+    app:layout_constraintTop_toBottomOf="@+id/checkBoxMovies" />
+
+<CheckBox
+    android:id="@+id/checkBoxGames"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Videojuegos"
+    app:layout_constraintBottom_toTopOf="@+id/buttonShow"
+    app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+    app:layout_constraintTop_toBottomOf="@+id/checkBoxMusic" />
+
+<Button
+    android:id="@+id/buttonShow"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:text="Mostrar Selecciones"
+    app:layout_constraintBottom_toTopOf="@+id/textViewResult"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/checkBoxGames" />
+
+<TextView
+    android:id="@+id/textViewResult"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:textSize="16sp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/buttonShow" />
+```
+
+  * **`CheckBox`**: Hemos creado tres opciones diferentes para que el usuario pueda seleccionarlas o deseleccionarlas de forma independiente.
+  * **`Button`**: Usaremos este botón para que, al hacer clic, se muestre la información de los `CheckBox` seleccionados.
+  * **`TextView`**: Aquí se mostrará el resultado final.
+
+-----
+
+### Paso 2: Implementar la lógica en `MainActivity.java`
+
+Ahora, vamos a escribir la lógica para verificar qué `CheckBox` están seleccionados y mostrar el resultado cuando se presione el botón.
+
+Abre el archivo **`app/java/com.tudominio.tuproyecto/MainActivity.java`** y añade el siguiente código:
+
+```java
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    CheckBox checkBoxMovies, checkBoxMusic, checkBoxGames;
+    Button buttonShow;
+    TextView textViewResult;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // 1. Encontrar los elementos de la UI por su ID
+        checkBoxMovies = findViewById(R.id.checkBoxMovies);
+        checkBoxMusic = findViewById(R.id.checkBoxMusic);
+        checkBoxGames = findViewById(R.id.checkBoxGames);
+        buttonShow = findViewById(R.id.buttonShow);
+        textViewResult = findViewById(R.id.textViewResult);
+
+        // 2. Establecer un listener para el botón
+        buttonShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 3. Crear un StringBuilder para construir el mensaje
+                StringBuilder result = new StringBuilder();
+                result.append("Tus intereses seleccionados:\n");
+
+                // 4. Verificar el estado de cada CheckBox
+                if (checkBoxMovies.isChecked()) {
+                    result.append("- Películas\n");
+                }
+                if (checkBoxMusic.isChecked()) {
+                    result.append("- Música\n");
+                }
+                if (checkBoxGames.isChecked()) {
+                    result.append("- Videojuegos\n");
+                }
+
+                // 5. Actualizar el TextView con el resultado
+                if (result.toString().equals("Tus intereses seleccionados:\n")) {
+                    textViewResult.setText("No has seleccionado ningún interés.");
+                    Toast.makeText(MainActivity.this, "Por favor, elige al menos un interés.", Toast.LENGTH_SHORT).show();
+                } else {
+                    textViewResult.setText(result.toString());
+                    Toast.makeText(MainActivity.this, "Selecciones actualizadas.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+}
+```
+
+### Explicación del Código en Java
+
+1.  **`findViewById()`**: Conectamos las variables de Java con los elementos del XML.
+2.  **`buttonShow.setOnClickListener()`**: Establecemos un escuchador de clics para el botón. El código dentro de `onClick` se ejecutará al presionarlo.
+3.  **`StringBuilder`**: Usamos un `StringBuilder` para construir el texto de manera eficiente, ya que concatenar cadenas repetidamente puede ser menos óptimo.
+4.  **`checkBox.isChecked()`**: Este es el método clave para los `CheckBox`. Devuelve `true` si el `CheckBox` está seleccionado y `false` si no lo está.
+5.  **Verificación y Actualización**:
+      * Iteramos a través de cada `CheckBox` usando `if`.
+      * Si un `CheckBox` está marcado (`.isChecked() == true`), añadimos su texto a nuestro `StringBuilder`.
+      * Finalmente, actualizamos el `TextView` con el texto que hemos construido.
+      * También agregamos un `if` para manejar el caso en que el usuario no seleccione ninguna opción.
+
+-----
+
+### Paso 3: Probarlo en el Emulador
+
+1.  Ejecuta tu aplicación en el emulador.
+2.  Verás los tres `CheckBox` y un botón. Puedes marcar o desmarcar cualquiera de ellos.
+3.  Haz clic en el botón "Mostrar Selecciones".
+4.  Verás que el `TextView` y el `Toast` se actualizan con la lista de tus intereses seleccionados.
+
+Este ejemplo te proporciona una base sólida para usar `CheckBox` y manejar múltiples selecciones de usuario en tus aplicaciones de Android.

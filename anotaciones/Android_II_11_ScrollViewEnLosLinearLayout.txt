@@ -1,0 +1,87 @@
+Ejemplo de cómo usar `ScrollView` junto a un `LinearLayout` en Android Studio.
+
+### ¿Qué es ScrollView?
+
+`ScrollView` es un `ViewGroup` que te permite hacer que el contenido de una vista sea deslizable verticalmente. Es decir, si el contenido de la pantalla excede su tamaño, `ScrollView` habilita la funcionalidad de "scroll", permitiendo al usuario ver el resto del contenido. Es importante saber que `ScrollView` solo puede tener un único hijo directo, por lo que es ideal para usarlo con un `LinearLayout` que, a su vez, puede contener múltiples elementos en su interior.
+
+### Ejemplo Práctico: Una larga lista de ítems
+
+Crearemos una pantalla con un largo listado de texto para demostrar cómo `ScrollView` permite desplazarse por la pantalla. El diseño principal será un `ScrollView` que contendrá un `LinearLayout` vertical con muchos elementos `TextView`.
+
+-----
+
+### 1\. Archivo de Diseño XML (`activity_main.xml`)
+
+Este archivo define la estructura visual. El `ScrollView` es el contenedor principal, y dentro de él se encuentra el `LinearLayout` que aloja a todos los `TextView`.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/main_layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        </LinearLayout>
+
+</ScrollView>
+```
+
+**Explicación del XML:**
+
+  * **`ScrollView`**: El elemento raíz. Tiene `match_parent` para ocupar toda la pantalla, pero solo se activará el scroll si su contenido interno supera este tamaño.
+  * **`LinearLayout`**: Es el único hijo directo del `ScrollView`. Su `layout_height` es `wrap_content` para que su altura se adapte a la suma de las alturas de todos los elementos que contenga, lo cual es fundamental para que el `ScrollView` detecte cuándo debe hacer scroll.
+
+-----
+
+### 2\. Archivo Java (`MainActivity.java`)
+
+En este código, obtendremos una referencia al `LinearLayout` del XML y luego, usando un bucle, añadiremos 30 `TextView` de manera programática para simular un contenido largo.
+
+```java
+package com.curso.ejemplos;
+
+import android.os.Bundle;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // 1. Cargar el diseño XML que contiene el ScrollView y el LinearLayout
+        setContentView(R.layout.activity_main);
+
+        // 2. Obtener una referencia al LinearLayout dentro del ScrollView
+        LinearLayout linearLayoutContent = findViewById(R.id.main_layout_content);
+
+        // 3. Simular un contenido largo añadiendo 30 TextViews programáticamente
+        for (int i = 1; i <= 30; i++) {
+            TextView textView = new TextView(this);
+            textView.setText("Elemento de lista #" + i);
+            textView.setTextSize(18);
+            textView.setPadding(0, 16, 0, 16);
+
+            // 4. Añadir el TextView al LinearLayout
+            linearLayoutContent.addView(textView);
+        }
+    }
+}
+```
+
+**Explicación del Código Java:**
+
+  * **`setContentView(R.layout.activity_main);`**: Carga el diseño XML. Es la base de la interfaz.
+  * **`findViewById(R.id.main_layout_content)`**: Obtiene la referencia al `LinearLayout` del diseño. Sin esta referencia, no podríamos añadirle nuevos elementos.
+  * **Bucle `for`**: Se utiliza para crear 30 instancias de `TextView`. En un escenario real, esta parte se usaría para rellenar la lista con datos de una base de datos o de una API.
+  * **`linearLayoutContent.addView(textView);`**: Se añade cada `TextView` creado al `LinearLayout`. Como el `LinearLayout` está dentro de un `ScrollView`, todos estos elementos se podrán desplazar si la lista es demasiado larga para caber en la pantalla.

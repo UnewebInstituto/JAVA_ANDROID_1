@@ -1,0 +1,854 @@
+-----
+
+## ¿Qué es Android?
+
+Android es un **sistema operativo móvil** de código abierto basado en el núcleo de Linux. Fue diseñado principalmente para dispositivos móviles con pantalla táctil, como teléfonos inteligentes y tabletas. Sin embargo, su versatilidad lo ha llevado a estar presente en otros dispositivos como televisores (Android TV), relojes inteligentes (Wear OS), automóviles (Android Auto) y más. Es desarrollado por Google y la Open Handset Alliance (OHA).
+
+### Historia
+
+Android Inc. fue fundada en 2003 por Andy Rubin, Rich Miner, Nick Sears y Chris White. Inicialmente, la empresa se centró en desarrollar un sistema operativo para cámaras digitales, pero luego cambió su enfoque hacia los teléfonos inteligentes. En 2005, Google adquirió Android Inc., y bajo la dirección de Google, el equipo continuó trabajando en el desarrollo del sistema operativo.
+
+La primera versión comercial de Android, **Android 1.0**, fue lanzada en septiembre de 2008 con el teléfono HTC Dream (conocido como T-Mobile G1 en Estados Unidos). Desde entonces, Android ha crecido exponencialmente hasta convertirse en el sistema operativo móvil más utilizado del mundo.
+
+-----
+
+## Tipos de Aplicaciones Móviles
+
+Existen diferentes enfoques para desarrollar aplicaciones móviles, cada uno con sus propias ventajas y desventajas.
+
+### Aplicaciones Nativas
+
+Las **aplicaciones nativas** se desarrollan específicamente para una plataforma móvil (Android o iOS) utilizando el lenguaje de programación y las herramientas que cada plataforma proporciona. Para Android, esto generalmente significa usar **Java** o **Kotlin** y Android Studio.
+
+**Ventajas:**
+
+  * **Rendimiento óptimo:** Acceso completo a las funcionalidades del hardware y software del dispositivo, lo que permite un rendimiento superior y una experiencia de usuario fluida.
+  * **Experiencia de usuario integrada:** Se adhieren a las directrices de diseño de la plataforma, ofreciendo una interfaz familiar y consistente para el usuario.
+  * **Acceso a todas las características del dispositivo:** Pueden utilizar GPS, cámara, acelerómetro, notificaciones push y cualquier otra característica nativa del dispositivo sin limitaciones.
+  * **Mayor seguridad:** Generalmente más seguras debido a las capas de seguridad inherentes de la plataforma.
+
+**Desventajas:**
+
+  * **Alto costo y tiempo de desarrollo:** Requiere desarrollar versiones separadas para cada plataforma (Android e iOS), lo que aumenta el tiempo y los recursos.
+  * **Mantenimiento más complejo:** Las actualizaciones deben implementarse y probarse por separado para cada plataforma.
+
+### Aplicación Web Adaptada (Web Responsive)
+
+Una **aplicación web adaptada** no es una aplicación móvil en sí misma, sino un sitio web diseñado para ser **responsive**, lo que significa que su diseño se ajusta automáticamente al tamaño de la pantalla del dispositivo desde el que se accede. Se ejecuta a través de un navegador web en el dispositivo móvil.
+
+**Ventajas:**
+
+  * **Desarrollo único:** Se desarrolla una sola versión que funciona en múltiples plataformas (escritorio, móvil, tableta).
+  * **Bajo costo de desarrollo:** Generalmente más económicas de desarrollar y mantener que las aplicaciones nativas.
+  * **No requiere instalación:** Los usuarios acceden a ellas a través de un navegador web, sin necesidad de descargar desde una tienda de aplicaciones.
+
+**Desventajas:**
+
+  * **Rendimiento limitado:** Dependen de la conexión a internet y el navegador, lo que puede resultar en un rendimiento más lento y menos fluido.
+  * **Menor acceso a características del dispositivo:** No pueden acceder a la mayoría de las características nativas del hardware del dispositivo.
+  * **No se distribuyen en tiendas de aplicaciones:** No aparecen en Google Play Store o Apple App Store.
+
+### Aplicaciones Web Nativas (Aplicaciones Híbridas)
+
+Las **aplicaciones híbridas** son un punto intermedio entre las nativas y las web. Se desarrollan utilizando tecnologías web (HTML, CSS, JavaScript) y luego se "envuelven" en un contenedor nativo utilizando frameworks como **React Native**, **Flutter** o **Ionic**. Este contenedor permite que la aplicación se ejecute como una aplicación nativa y acceda a algunas características del dispositivo.
+
+**Ventajas:**
+
+  * **Desarrollo más rápido y económico:** Un único código base para múltiples plataformas, reduciendo el tiempo y los costos de desarrollo.
+  * **Acceso a algunas características nativas:** Pueden acceder a un subconjunto de características del dispositivo a través de plugins.
+  * **Distribución en tiendas de aplicaciones:** Pueden publicarse en Google Play Store y Apple App Store.
+
+**Desventajas:**
+
+  * **Rendimiento potencialmente inferior a las nativas:** Aunque mejor que las web adaptadas, su rendimiento puede no ser tan óptimo como el de una aplicación nativa pura.
+  * **Experiencia de usuario no tan integrada:** Puede haber ligeras inconsistencias en la interfaz de usuario en comparación con las aplicaciones nativas.
+  * **Dependencia de frameworks:** Las limitaciones o actualizaciones del framework pueden afectar la aplicación.
+
+### Estudio Comparativo entre los Diferentes Tipos de Aplicaciones para Móviles
+
+| Característica            | Aplicación Nativa                     | Aplicación Web Adaptada              | Aplicación Híbrida                    |
+| :------------------------ | :------------------------------------ | :----------------------------------- | :------------------------------------ |
+| **Lenguaje/Tecnología** | Java/Kotlin (Android), Swift/Objective-C (iOS) | HTML, CSS, JavaScript                | HTML, CSS, JavaScript + Framework (React Native, Flutter, Ionic) |
+| **Rendimiento** | Excelente                             | Limitado (depende del navegador)     | Bueno (pero no tan óptimo como nativa) |
+| **Acceso a Hardware** | Total                                 | Muy limitado                         | Moderado (a través de plugins)        |
+| **Costo de Desarrollo** | Alto                                  | Bajo                                 | Moderado                              |
+| **Tiempo de Desarrollo** | Largo                                 | Corto                                | Moderado                              |
+| **Experiencia de Usuario**| Excelente, integrada                  | Variable, depende del navegador      | Buena, consistente entre plataformas |
+| **Distribución** | Tiendas de Aplicaciones (Google Play, App Store) | Acceso vía navegador                | Tiendas de Aplicaciones              |
+| **Offline** | Sí                                    | No (a menos que se usen PWA con caché) | Sí                                    |
+| **Mantenimiento** | Complejo (doble código base)          | Simple (un solo código base)         | Moderado (un solo código base con dependencia de framework) |
+
+-----
+
+## Historial de Actualizaciones Android y Versiones
+
+Android ha tenido numerosas actualizaciones significativas desde su lanzamiento, cada una con un nombre en clave basado en un postre y en orden alfabético (hasta Android 10). Estas actualizaciones traen nuevas características, mejoras de seguridad, optimizaciones de rendimiento y cambios en la interfaz de usuario.
+
+Aquí algunas de las versiones más destacadas:
+
+  * **Android 1.0 Apple Pie** (Septiembre 2008)
+  * **Android 1.5 Cupcake** (Abril 2009): Grabación de video, teclado en pantalla.
+  * **Android 1.6 Donut** (Septiembre 2009): Soporte para diferentes resoluciones de pantalla, búsqueda universal.
+  * **Android 2.0/2.1 Eclair** (Octubre 2009): Múltiples cuentas, Google Maps Navigation.
+  * **Android 2.2 Froyo** (Mayo 2010): Tethering, integración con Adobe Flash.
+  * **Android 2.3 Gingerbread** (Diciembre 2010): Soporte NFC, mejoras en la interfaz de usuario.
+  * **Android 3.0/3.1/3.2 Honeycomb** (Febrero 2011): Diseñado específicamente para tablets.
+  * **Android 4.0 Ice Cream Sandwich** (Octubre 2011): Unificación de interfaces para teléfonos y tablets.
+  * **Android 4.1/4.2/4.3 Jelly Bean** (Julio 2012): Project Butter (mayor fluidez de la interfaz), Google Now.
+  * **Android 4.4 KitKat** (Octubre 2013): Optimización para dispositivos de gama baja, modo inmersivo.
+  * **Android 5.0/5.1 Lollipop** (Noviembre 2014): Material Design, notificaciones en pantalla de bloqueo.
+  * **Android 6.0 Marshmallow** (Octubre 2015): Permisos en tiempo de ejecución, Doze (optimización de batería).
+  * **Android 7.0/7.1 Nougat** (Agosto 2016): Multiventana, mejoras en notificaciones.
+  * **Android 8.0/8.1 Oreo** (Agosto 2017): Puntos de notificación, Picture-in-Picture.
+  * **Android 9 Pie** (Agosto 2018): Navegación por gestos, Bienestar Digital.
+  * **Android 10** (Septiembre 2019): Modo oscuro a nivel de sistema, mejoras de privacidad. (Fin de los nombres de postres)
+  * **Android 11** (Septiembre 2020): Conversaciones priorizadas, controles de dispositivos.
+  * **Android 12** (Octubre 2021): Material You, rediseño completo de la interfaz de usuario.
+  * **Android 13** (Agosto 2022): Más opciones de personalización, privacidad mejorada.
+  * **Android 14** (Octubre 2023): Mejoras en privacidad, salud y seguridad.
+  * **Android 15** (Lanzamiento previsto para 2025): Se esperan más mejoras.
+
+-----
+
+## Arquitectura de Android
+
+La arquitectura de Android se organiza en capas, construidas sobre el núcleo de Linux. Comprender estas capas es fundamental para entender cómo funciona el sistema operativo.
+
+1.  **Núcleo Linux (Linux Kernel):** La capa más baja. Proporciona los servicios fundamentales del sistema, como seguridad, gestión de memoria, gestión de procesos, pila de red y controladores de hardware.
+2.  **Capa de Hardware Abstraction Layer (HAL):** Se encuentra entre el kernel de Linux y los frameworks de la capa superior. Proporciona una interfaz estándar para que el framework de Android interactúe con el hardware del dispositivo (cámara, Bluetooth, Wi-Fi, etc.) sin tener que preocuparse por las implementaciones específicas de cada fabricante.
+3.  **Bibliotecas Nativas (Native Libraries):** Un conjunto de bibliotecas escritas en C/C++ que proporcionan las capacidades principales de Android. Incluyen:
+      * **Surface Manager:** Gestiona la composición de la pantalla.
+      * **Media Framework (Stagefright):** Para la reproducción y grabación de audio y video.
+      * **SQLite:** Una base de datos ligera para almacenamiento local.
+      * **OpenGL ES:** Para gráficos 3D.
+      * **WebKit:** Motor de renderizado para navegadores web.
+      * **Libc:** La biblioteca estándar de C.
+4.  **Máquina Virtual Android (Android Runtime - ART):** Es el entorno de ejecución para las aplicaciones Android. Anteriormente, era Dalvik, pero a partir de Android 5.0 Lollipop, ART lo reemplazó. ART compila el código de la aplicación (bytecode de Dalvik, ahora DEX) en código máquina en el momento de la instalación (Ahead-of-Time compilation - AOT), lo que resulta en un mejor rendimiento y menor consumo de batería en comparación con Dalvik (que usaba Just-in-Time compilation - JIT).
+5.  **Framework de Aplicaciones (Application Framework):** Proporciona API de alto nivel para los desarrolladores de aplicaciones. Esta capa contiene componentes clave que facilitan el desarrollo de aplicaciones, como:
+      * **Activity Manager:** Gestiona el ciclo de vida de las actividades.
+      * **View System:** Para construir la interfaz de usuario.
+      * **Notification Manager:** Para gestionar notificaciones.
+      * **Content Providers:** Para compartir datos entre aplicaciones.
+      * **Resource Manager:** Para acceder a recursos como cadenas, imágenes, diseños.
+6.  **Aplicaciones (Applications):** La capa superior. Incluye las aplicaciones preinstaladas (Teléfono, Contactos, Navegador, etc.) y las aplicaciones de terceros desarrolladas por los usuarios.
+
+-----
+
+## Descarga y Configuración del Entorno de Desarrollo
+
+Para desarrollar aplicaciones Android, necesitas el **Android Studio**, el IDE (Entorno de Desarrollo Integrado) oficial de Google. Incluye todo lo necesario: el IDE, el SDK de Android, herramientas de compilación, emuladores y más.
+
+### Requerimientos del Sistema (Generales, verificar la página oficial de Android Studio para los más recientes)
+
+  * **Sistema Operativo:** Microsoft Windows 8/10/11 (64-bit), macOS 10.14 o posterior, o una distribución de Linux de 64 bits (como Ubuntu 18.04 LTS o superior, Fedora 31 o superior).
+  * **RAM:** 8 GB de RAM o más recomendados. 4 GB de RAM es el mínimo, pero el rendimiento puede ser lento.
+  * **Espacio en Disco:** 8 GB de espacio disponible en disco (IDE + Android SDK + Android Emulator). Se recomiendan SSD.
+  * **Resolución de Pantalla:** 1280 x 800 o resolución de pantalla superior.
+  * **JDK:** Java Development Kit 11 (JDK 11) o superior. Android Studio lo incluye, pero a veces es necesario verificar.
+
+### Pasos para Descargar e Instalar Android Studio
+
+1.  **Descargar Android Studio:** Ve a la página oficial de desarrolladores de Android: [https://developer.android.com/studio](https://developer.android.com/studio). Haz clic en el botón "Download Android Studio". Acepta los términos y condiciones.
+2.  **Ejecutar el Instalador:**
+      * **Windows:** Ejecuta el archivo `.exe` descargado. Sigue las instrucciones del asistente de instalación. Asegúrate de que las opciones "Android SDK", "Android Virtual Device" y "Performance (Intel HAXM o Hypervisor)" estén marcadas.
+      * **macOS:** Abre el archivo `.dmg` descargado y arrastra Android Studio a la carpeta de Aplicaciones.
+      * **Linux:** Descomprime el archivo `.zip` en un directorio adecuado (por ejemplo, `/opt/android-studio`) y luego ejecuta `bin/studio.sh`.
+3.  **Configuración Inicial:** La primera vez que inicies Android Studio, te guiará a través de un asistente de configuración.
+      * **Tipo de instalación:** Elige "Standard" para una instalación predeterminada y recomendada.
+      * **Tema de interfaz:** Elige entre "Darcula" (oscuro) o "Light" (claro).
+      * **Descarga de Componentes SDK:** El asistente descargará y configurará automáticamente los componentes esenciales del SDK de Android, el emulador y las herramientas de compilación. Asegúrate de tener una conexión a internet estable.
+4.  **Verificación de Instalación:** Una vez completada la instalación, verás la pantalla de bienvenida de Android Studio.
+
+### Instalar y Actualizar Componentes del SDK de Android
+
+Android Studio gestiona el SDK de Android. Puedes instalar y actualizar diferentes versiones del SDK, herramientas y complementos.
+
+1.  **Abrir SDK Manager:** En Android Studio, ve a **File \> Settings** (Windows/Linux) o **Android Studio \> Preferences** (macOS). En el panel izquierdo, navega a **Appearance & Behavior \> System Settings \> Android SDK**.
+2.  **Pestaña SDK Platforms:** Aquí puedes seleccionar las versiones de Android (API Levels) que deseas descargar. Es recomendable tener la última versión estable, y quizás algunas anteriores para compatibilidad.
+3.  **Pestaña SDK Tools:** Aquí puedes seleccionar las herramientas del SDK. Asegúrate de que los siguientes estén instalados y actualizados:
+      * **Android SDK Build-Tools** (última versión)
+      * **Android SDK Command-line Tools**
+      * **Android SDK Platform-Tools**
+      * **Android Emulator**
+      * **Intel x86 Emulator Accelerator (HAXM installer)** (para Windows/macOS con procesadores Intel, o Hypervisor para otras configuraciones).
+4.  **Aplicar Cambios:** Después de seleccionar los componentes, haz clic en "Apply" o "OK". Android Studio descargará e instalará los componentes seleccionados.
+
+-----
+
+## Creación de un Proyecto Android con Android Studio
+
+### Pasos para Crear un Nuevo Proyecto
+
+1.  **Abrir Android Studio:** Si ya tienes un proyecto abierto, cierra el actual y selecciona "Start a new Android Studio project" desde la pantalla de bienvenida. Si no, ve a **File \> New \> New Project...**.
+2.  **Seleccionar Plantilla de Actividad:**
+      * Se te presentará una ventana para elegir una plantilla de actividad. Para la mayoría de los proyectos, "Empty Activity" es un buen punto de partida. Selecciónala y haz clic en "Next".
+3.  **Configurar tu Proyecto:**
+      * **Name:** El nombre de tu aplicación (ej. "MiPrimeraApp"). Este es el nombre que los usuarios verán.
+      * **Package name:** Un identificador único para tu aplicación en formato de dominio inverso (ej. `com.example.miprimeraapp`). Es una buena práctica usar tu dominio si lo tienes (ej. `com.tudominio.miprimeraapp`).
+      * **Save location:** La ubicación donde se guardará tu proyecto en el disco.
+      * **Language:** Elige **Java**. (Kotlin es el lenguaje preferido por Google, pero para este curso nos centraremos en Java).
+      * **Minimum SDK:** Selecciona la versión mínima de Android con la que deseas que tu aplicación sea compatible. Cuanto más bajo el nivel de API, más dispositivos podrán ejecutar tu app, pero tendrás menos características modernas disponibles. Android Studio te mostrará un porcentaje de dispositivos que soportan esa versión. Para empezar, puedes elegir una versión como API 21 (Android 5.0 Lollipop) o API 24 (Android 7.0 Nougat) que tienen una buena cobertura.
+      * **Build configuration language:** Asegúrate de que está en "Kotlin DSL" o "Groovy DSL" (Kotlin DSL es lo más moderno).
+4.  **Finalizar:** Haz clic en "Finish". Android Studio configurará el proyecto y sincronizará los archivos de Gradle. Este proceso puede tardar unos minutos la primera vez.
+
+-----
+
+## Estructura de un Proyecto en Android
+
+Una vez que el proyecto se ha creado, verás una estructura de carpetas en la ventana "Project" (normalmente en la vista "Android"). Aquí están los componentes clave:
+
+  * **`app/`**: Contiene la mayor parte de tu código fuente de la aplicación, recursos y archivos de compilación.
+      * **`src/`**:
+          * **`main/`**:
+              * **`java/com/example/miprimeraapp/`**: Aquí es donde resides tus archivos de código fuente Java (`.java`). Por defecto, encontrarás `MainActivity.java`.
+              * **`res/`**: Contiene todos los recursos de tu aplicación.
+                  * **`drawable/`**: Imágenes y otros elementos gráficos (XML o PNG/JPG).
+                  * **`layout/`**: Archivos XML que definen la interfaz de usuario de tus actividades (ej. `activity_main.xml`).
+                  * **`mipmap/`**: Iconos de la aplicación para diferentes densidades.
+                  * **`values/`**: Archivos XML que contienen valores como cadenas de texto (`strings.xml`), colores (`colors.xml`), estilos (`styles.xml` o `themes.xml`) y dimensiones (`dimens.xml`).
+              * **`AndroidManifest.xml`**: El archivo de manifiesto de la aplicación.
+          * **`test/`**: Para pruebas unitarias locales.
+          * **`androidTest/`**: Para pruebas de instrumentación (pruebas en dispositivos o emuladores).
+      * **`build.gradle (Module: app)`**: Archivo de configuración de Gradle específico para tu módulo de aplicación. Define dependencias, versión del SDK, etc.
+  * **`gradle/`**: Contiene los archivos de configuración de Gradle.
+  * **`build.gradle (Project: YourProjectName)`**: Archivo de configuración de Gradle a nivel de proyecto.
+  * **`.gitignore`**: Para el control de versiones con Git.
+  * **`settings.gradle`**: Define qué módulos se incluyen en tu proyecto.
+
+### Fichero ANDROIDMANIFEST.XML
+
+El archivo `AndroidManifest.xml` es un archivo XML esencial que describe las características fundamentales de tu aplicación y define sus componentes. Le informa al sistema Android sobre qué es la aplicación, qué permisos necesita y cómo interactúa con otras aplicaciones y el sistema.
+
+**Elementos clave en `AndroidManifest.xml`:**
+
+  * **`<manifest>`**: El elemento raíz. Contiene el atributo `package` que define el nombre del paquete de la aplicación.
+  * **`<application>`**: Define las configuraciones globales para la aplicación.
+      * `android:allowBackup`: Permite o deniega la copia de seguridad de la aplicación.
+      * `android:icon`: El icono de la aplicación.
+      * `android:label`: El nombre visible de la aplicación.
+      * `android:roundIcon`: El icono de la aplicación para dispositivos que usan iconos redondos.
+      * `android:supportsRtl`: Habilita o deshabilita el soporte para diseños de derecha a izquierda (Right-To-Left).
+      * `android:theme`: El tema predeterminado aplicado a todas las actividades.
+      * **`<activity>`**: Declara una actividad (una pantalla) de la aplicación. Cada actividad que uses debe ser declarada aquí.
+          * `android:name`: La clase Java de la actividad (ej. `.MainActivity`).
+          * `android:label`: El nombre visible de la actividad (si es diferente al de la aplicación).
+          * **`<intent-filter>`**: Define los tipos de `Intent` a los que una actividad puede responder.
+              * **`<action android:name="android.intent.action.MAIN" />`**: Indica que esta actividad es el punto de entrada principal de la aplicación.
+              * **`<category android:name="android.intent.category.LAUNCHER" />`**: Indica que esta actividad debe aparecer en el lanzador de aplicaciones del dispositivo.
+      * **`<uses-permission>`**: Declara los permisos que tu aplicación necesita para acceder a recursos protegidos del sistema o datos de otras aplicaciones (ej. `android.permission.INTERNET`, `android.permission.CAMERA`).
+
+**Ejemplo básico de `AndroidManifest.xml`:**
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.miprimeraapp">
+
+    <uses-permission android:name="android.permission.INTERNET" /> <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MiPrimeraApp">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        </application>
+</manifest>
+```
+
+-----
+
+## Cómo Crear y Configurar un Android Virtual Device (AVD) en Android Studio
+
+Un **Android Virtual Device (AVD)** es un emulador que te permite ejecutar tus aplicaciones Android en tu computadora, simulando diferentes dispositivos (teléfonos, tablets, relojes, etc.) y versiones de Android.
+
+### Pasos para Crear un AVD
+
+1.  **Abrir AVD Manager:** En Android Studio, ve a **Tools \> Device Manager** (o haz clic en el icono del dispositivo en la barra de herramientas superior).
+2.  **Crear Nuevo Dispositivo Virtual:** Haz clic en el botón "+ Create Device" en la ventana de Device Manager.
+3.  **Seleccionar Tipo de Hardware:**
+      * Elige la categoría del dispositivo (Phone, Tablet, Wear OS, TV, Automotive).
+      * Selecciona un perfil de hardware. Por ejemplo, "Pixel 6" es una buena opción ya que simula un dispositivo real de Google. Haz clic en "Next".
+4.  **Seleccionar Imagen del Sistema (System Image):**
+      * Aquí debes elegir la versión de Android (API Level) que se ejecutará en tu emulador. Se recomienda usar una imagen con el icono de descarga si no la tienes instalada.
+      * Busca una imagen con "Google APIs" (si tu aplicación necesita servicios de Google Play) o "Google Play" (para acceso a la Play Store en el emulador, útil para pruebas).
+      * Haz clic en "Download" junto a la imagen que deseas. Este proceso puede tardar un tiempo.
+      * Una vez descargada, selecciona la imagen y haz clic en "Next".
+5.  **Verificar Configuración del AVD:**
+      * **AVD Name:** Dale un nombre descriptivo a tu AVD (ej. "Pixel\_6\_API\_34").
+      * **Startup orientation:** Orientación inicial del dispositivo (Portrait o Landscape).
+      * **Emulated Performance:** Asegúrate de que "Graphics" esté en "Hardware - GLES 2.0" para un mejor rendimiento.
+      * Puedes mostrar "Advanced Settings" para configurar más opciones como tamaño de memoria, almacenamiento, cámara, etc.
+6.  **Finalizar:** Haz clic en "Finish". Tu AVD aparecerá en la lista de dispositivos.
+
+### Ejecutar tu AVD
+
+Para iniciar tu AVD, selecciona el AVD de la lista en Device Manager y haz clic en el botón de **Play (triángulo verde)**. El emulador se iniciará y se mostrará en una ventana separada.
+
+-----
+
+## Creación de Nuestra Primera APP Android
+
+Vamos a crear una aplicación simple que muestre un texto "¡Hola Mundo\!" en la pantalla.
+
+**Ejercicio Práctico 1: "Hola Mundo"**
+
+1.  **Crear un Nuevo Proyecto:** Sigue los pasos anteriores para crear un nuevo proyecto:
+
+      * **Template:** Empty Activity
+      * **Name:** HolaMundoApp
+      * **Package name:** `com.example.holamundoapp`
+      * **Language:** Java
+      * **Minimum SDK:** Elige una versión reciente (ej. API 24: Android 7.0 Nougat)
+
+2.  **Explorar los Archivos:**
+
+      * Abre `app/src/main/java/com/example/holamundoapp/MainActivity.java`. Este es el archivo de código Java de tu actividad principal.
+      * Abre `app/src/main/res/layout/activity_main.xml`. Este es el archivo XML que define el diseño de la interfaz de usuario de tu actividad.
+
+3.  **Modificar `activity_main.xml`:**
+
+      * Cambia a la vista "Code" (en la parte inferior de la ventana del editor).
+      * Por defecto, encontrarás un `TextView` con el texto "Hello World\!".
+      * Modifica el `TextView` para que muestre "¡Hola Mundo\!".
+
+    <!-- end list -->
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Hola Mundo!"  
+            android:textSize="24sp"       app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    ```
+
+4.  **Ejecutar la Aplicación:**
+
+      * Asegúrate de que tu AVD esté seleccionado en el selector de dispositivos en la barra de herramientas superior de Android Studio.
+      * Haz clic en el botón de **"Run 'app'" (triángulo verde)**. Android Studio compilará la aplicación y la instalará en tu AVD.
+      * Deberías ver tu emulador iniciar y mostrar la aplicación con el texto "¡Hola Mundo\!".
+
+-----
+
+## Capturando el Click de un Botón
+
+Ahora, vamos a agregar un botón y haremos que algo suceda cuando el usuario lo toque.
+
+**Ejercicio Práctico 2: Contador de Clicks**
+
+Vamos a crear una aplicación simple con un botón y un texto que mostrará cuántas veces se ha hecho clic en el botón.
+
+1.  **Abrir el Proyecto "HolaMundoApp"** (o crear uno nuevo si lo prefieres).
+
+2.  **Modificar `activity_main.xml`:**
+
+      * Vamos a añadir un `Button` y un `TextView` para mostrar el contador.
+      * Asigna `id`s a ambos elementos para poder referenciarlos desde el código Java.
+
+    <!-- end list -->
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/textViewContador"  
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contador: 0"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonClickMe" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <Button
+            android:id="@+id/buttonClickMe"    
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Haz Clic Aquí!"
+            android:textSize="20sp"
+            android:layout_marginTop="32dp"     
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewContador" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    ```
+
+3.  **Modificar `MainActivity.java`:**
+
+      * Necesitamos obtener referencias a los elementos de la interfaz de usuario (`TextView` y `Button`).
+      * Declarar una variable para el contador.
+      * Configurar un `OnClickListener` para el botón.
+
+    <!-- end list -->
+
+    ```java
+    package com.example.holamundoapp;
+
+    import android.os.Bundle;
+    import android.view.View;
+    import android.widget.Button;
+    import android.widget.TextView;
+
+    import androidx.appcompat.app.AppCompatActivity;
+
+    public class MainActivity extends AppCompatActivity {
+
+        // Declarar las variables para los elementos de la UI
+        private TextView textViewContador;
+        private Button buttonClickMe;
+        private int contador = 0; // Variable para el contador
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main); // Asocia esta actividad con su layout XML
+
+            // Obtener referencias a los elementos de la UI usando sus IDs
+            textViewContador = findViewById(R.id.textViewContador);
+            buttonClickMe = findViewById(R.id.buttonClickMe);
+
+            // Configurar el Listener para el click del botón
+            buttonClickMe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Cuando el botón es clickeado:
+                    contador++; // Incrementar el contador
+                    // Actualizar el texto del TextView
+                    textViewContador.setText("Contador: " + contador);
+                }
+            });
+        }
+    }
+    ```
+
+4.  **Ejecutar la Aplicación:**
+
+      * Ejecuta la aplicación en tu AVD.
+      * Haz clic en el botón repetidamente y observa cómo el texto del contador se actualiza.
+
+-----
+
+## Actividades (Activity)
+
+Una **Activity** (Actividad) es un componente fundamental de la aplicación Android. Representa una única pantalla con una interfaz de usuario a través de la cual el usuario puede interactuar. Una aplicación puede tener varias actividades, pero solo una de ellas puede estar activa y en primer plano en un momento dado.
+
+Cuando una aplicación se inicia, generalmente se lanza una actividad principal. El usuario puede navegar entre diferentes actividades dentro de la misma aplicación o incluso entre actividades de diferentes aplicaciones.
+
+### Comportamiento de una Activity cuando otra la Sustituye
+
+Cuando una nueva actividad se lanza (por ejemplo, desde la actividad actual), la actividad que estaba en primer plano se detiene y la nueva actividad toma el foco. La actividad anterior no se destruye inmediatamente; en su lugar, se mueve a un estado de pausa o detención y se coloca en la **pila de retroceso (back stack)**.
+
+La pila de retroceso es una pila (LIFO - Last In, First Out) de actividades. Cuando el usuario presiona el botón "Atrás" del dispositivo, la actividad actual se destruye y la actividad superior en la pila de retroceso (la que estaba justo antes) se reanuda y vuelve al primer plano.
+
+**Ejemplo:**
+
+  * Actividad A (Inicio) -\> Usuario hace clic en un botón -\> Lanza Actividad B
+      * La pila de retroceso ahora es: [A, B]
+  * Desde Actividad B -\> Usuario hace clic en un botón -\> Lanza Actividad C
+      * La pila de retroceso ahora es: [A, B, C]
+  * Usuario presiona el botón "Atrás"
+      * Actividad C se destruye. Actividad B se reanuda.
+      * La pila de retroceso ahora es: [A, B]
+  * Usuario presiona el botón "Atrás" de nuevo
+      * Actividad B se destruye. Actividad A se reanuda.
+      * La pila de retroceso ahora es: [A]
+
+-----
+
+## Ciclo de Vida de una Activity
+
+El ciclo de vida de una Activity describe los diferentes estados por los que pasa una actividad desde su creación hasta su destrucción, y los métodos de callback que se invocan en cada uno de esos estados. Comprender el ciclo de vida es crucial para gestionar correctamente los recursos, guardar el estado y proporcionar una experiencia de usuario fluida.
+
+Aquí están los métodos de callback principales del ciclo de vida de una Activity, invocados por el sistema Android:
+
+  * **`onCreate()`**:
+
+      * **Invocado:** Cuando la actividad se crea por primera vez.
+      * **Uso:** Aquí debes realizar toda la configuración básica de tu actividad, como inflar el diseño de la interfaz de usuario (`setContentView()`), inicializar vistas (`findViewById()`), y configurar listeners. Solo se llama una vez durante la vida útil de la actividad.
+
+  * **`onStart()`**:
+
+      * **Invocado:** Justo después de `onCreate()` (o cuando la actividad vuelve a ser visible después de haber estado en segundo plano).
+      * **Uso:** La actividad se hace visible para el usuario. Es un buen lugar para registrar Broadcast Receivers o iniciar animaciones que necesitan ser visibles.
+
+  * **`onResume()`**:
+
+      * **Invocado:** Cuando la actividad adquiere el foco del usuario y está lista para interactuar.
+      * **Uso:** La actividad está en primer plano. Aquí se inician las operaciones que deben ejecutarse cuando la actividad está activa y visible, como iniciar la vista previa de la cámara, reanudar un juego o acceder a recursos exclusivos. Siempre se llama después de `onStart()` y cuando la actividad vuelve al frente.
+
+  * **`onPause()`**:
+
+      * **Invocado:** Cuando la actividad está a punto de perder el foco y entrar en segundo plano (por ejemplo, cuando se lanza otra actividad, o el usuario recibe una llamada).
+      * **Uso:** Aquí se debe guardar cualquier dato persistente no guardado, liberar recursos que no son necesarios mientras la actividad no está en primer plano (para ahorrar batería y rendimiento), o detener animaciones. Las operaciones en `onPause()` deben ser rápidas.
+
+  * **`onStop()`**:
+
+      * **Invocado:** Cuando la actividad ya no es visible para el usuario (por ejemplo, otra actividad la cubre por completo, o la aplicación se mueve a segundo plano).
+      * **Uso:** Realizar tareas de limpieza más intensivas que en `onPause()`, como liberar recursos de red o bases de datos que no se necesitan mientras la actividad no es visible.
+
+  * **`onDestroy()`**:
+
+      * **Invocado:** Justo antes de que la actividad sea destruida.
+      * **Uso:** Se llama para realizar la limpieza final, como liberar todos los recursos restantes, detener hilos, cerrar cursores de base de datos, etc. Puede ser invocado por el sistema para liberar memoria, o cuando el usuario finaliza la actividad (ej. presionando "Atrás" desde la actividad raíz o haciendo "swipe" para cerrarla desde la pantalla de aplicaciones recientes).
+
+  * **`onRestart()`**:
+
+      * **Invocado:** Cuando una actividad que estaba en estado `onStop()` vuelve a ser visible para el usuario.
+      * **Uso:** Se llama antes de `onStart()` y `onResume()` cuando la actividad se reanuda después de haber sido detenida.
+
+**Diagrama de Flujo del Ciclo de Vida (Simplificado):**
+
+```
+                     +-----------------+
+                     |     Created     |
+                     +-----------------+
+                           | onCreate()
+                           v
+                     +-----------------+
+                     |     Started     |
+                     +-----------------+
+                           | onStart()
+                           v
+                     +-----------------+
+                     |     Resumed     | <-------+
+                     +-----------------+         |
+                           | onPause()           |
+                           v                     |
+                     +-----------------+         | onRestart()
+                     |     Paused      |         ^
+                     +-----------------+         |
+                           | onStop()            |
+                           v                     |
+                     +-----------------+         |
+                     |     Stopped     | --------+
+                     +-----------------+
+                           | onDestroy()
+                           v
+                     +-----------------+
+                     |    Destroyed    |
+                     +-----------------+
+```
+
+**Ejercicio Práctico 3: Observando el Ciclo de Vida de una Activity**
+
+Vamos a agregar mensajes de log en los métodos del ciclo de vida para ver cuándo se invocan.
+
+1.  **Abrir el Proyecto "HolaMundoApp"** (o cualquier proyecto Android existente).
+
+2.  **Modificar `MainActivity.java`:**
+
+      * Importa la clase `Log` de Android.
+      * Define una constante `TAG` para identificar tus mensajes en el Logcat.
+      * Implementa cada método de callback del ciclo de vida e imprime un mensaje en Logcat.
+
+    <!-- end list -->
+
+    ```java
+    package com.example.holamundoapp;
+
+    import android.os.Bundle;
+    import android.util.Log; // Importar la clase Log
+    import android.view.View;
+    import android.widget.Button;
+    import android.widget.TextView;
+
+    import androidx.appcompat.app.AppCompatActivity;
+
+    public class MainActivity extends AppCompatActivity {
+
+        private static final String TAG = "MainActivityLifeCycle"; // Constante para el Logcat
+        private TextView textViewContador;
+        private Button buttonClickMe;
+        private int contador = 0;
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+            Log.d(TAG, "onCreate() llamado."); // Mensaje en Logcat
+
+            textViewContador = findViewById(R.id.textViewContador);
+            buttonClickMe = findViewById(R.id.buttonClickMe);
+
+            buttonClickMe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    contador++;
+                    textViewContador.setText("Contador: " + contador);
+                }
+            });
+        }
+
+        @Override
+        protected void onStart() {
+            super.onStart();
+            Log.d(TAG, "onStart() llamado.");
+        }
+
+        @Override
+        protected void onResume() {
+            super.onResume();
+            Log.d(TAG, "onResume() llamado.");
+        }
+
+        @Override
+        protected void onPause() {
+            super.onPause();
+            Log.d(TAG, "onPause() llamado.");
+        }
+
+        @Override
+        protected void onStop() {
+            super.onStop();
+            Log.d(TAG, "onStop() llamado.");
+        }
+
+        @Override
+        protected void onDestroy() {
+            super.onDestroy();
+            Log.d(TAG, "onDestroy() llamado.");
+        }
+
+        @Override
+        protected void onRestart() {
+            super.onRestart();
+            Log.d(TAG, "onRestart() llamado.");
+        }
+    }
+    ```
+
+3.  **Ejecutar y Observar en Logcat:**
+
+      * Ejecuta la aplicación en tu AVD.
+      * Abre la ventana **Logcat** en la parte inferior de Android Studio.
+      * En la barra de búsqueda de Logcat, escribe `TAG: MainActivityLifeCycle` (o simplemente `MainActivityLifeCycle`) para filtrar los mensajes.
+      * **Observa el comportamiento:**
+          * **Al iniciar la app:** Verás `onCreate()`, `onStart()`, `onResume()`.
+          * **Presiona el botón "Home":** La app se va a segundo plano. Verás `onPause()`, `onStop()`.
+          * **Vuelve a la app desde el lanzador:** Verás `onRestart()`, `onStart()`, `onResume()`.
+          * **Lanza otra app que cubra la tuya:** Verás `onPause()`, `onStop()`.
+          * **Vuelve a tu app:** Verás `onRestart()`, `onStart()`, `onResume()`.
+          * **Presiona el botón "Atrás" repetidamente hasta salir de la app:** Verás `onPause()`, `onStop()`, `onDestroy()`.
+
+Este ejercicio te ayudará a visualizar cómo el sistema Android gestiona las actividades en diferentes escenarios.
+
+-----
+
+## Creación de una Activity
+
+Ya hemos creado una `MainActivity` al iniciar el proyecto. Ahora, vamos a crear una segunda actividad y navegar entre ellas.
+
+**Ejercicio Práctico 4: Múltiples Actividades y Navegación**
+
+Crearemos una aplicación con dos actividades: `MainActivity` (la pantalla de inicio) y `SecondActivity` (una segunda pantalla). `MainActivity` tendrá un botón que nos llevará a `SecondActivity`, y `SecondActivity` tendrá un botón para volver a `MainActivity`.
+
+1.  **Crear un Nuevo Proyecto:** Crea un nuevo proyecto llamado "MultiActivityApp" con una "Empty Activity" (que será `MainActivity`).
+
+2.  **Crear `SecondActivity`:**
+
+      * En el panel "Project" (vista Android), haz clic derecho en tu paquete de Java (ej. `com.example.multiactivityapp`).
+      * Selecciona **New \> Activity \> Empty Activity**.
+      * **Activity Name:** `SecondActivity`
+      * **Layout Name:** `activity_second` (se generará automáticamente)
+      * Asegúrate de que "Generate Layout File" y "Launcher Activity" (desmarcar este, ya que `MainActivity` será el lanzador) estén configurados correctamente.
+      * Haz clic en "Finish".
+
+    Android Studio creará `SecondActivity.java` y `activity_second.xml` y también la declarará automáticamente en `AndroidManifest.xml`.
+
+3.  **Modificar `activity_main.xml`:**
+
+      * Agrega un `Button` que servirá para ir a la `SecondActivity`.
+
+    <!-- end list -->
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Bienvenido a la Pantalla Principal!"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonGoToSecondActivity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <Button
+            android:id="@+id/buttonGoToSecondActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ir a Segunda Pantalla"
+            android:textSize="20sp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    ```
+
+4.  **Modificar `activity_second.xml`:**
+
+      * Agrega un `TextView` para indicar que estamos en la segunda pantalla y un `Button` para volver.
+
+    <!-- end list -->
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".SecondActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Estás en la Segunda Pantalla!"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonGoToMainActivity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <Button
+            android:id="@+id/buttonGoToMainActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Volver a Pantalla Principal"
+            android:textSize="20sp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    ```
+
+5.  **Modificar `MainActivity.java` (Para ir a `SecondActivity`):**
+
+      * Obtén la referencia del botón y configura un `OnClickListener`.
+      * Usa un **`Intent`** para iniciar `SecondActivity`. Un `Intent` es un objeto de mensajería que se utiliza para solicitar una acción a otro componente de la aplicación (como iniciar una actividad, un servicio, o enviar una difusión).
+
+    <!-- end list -->
+
+    ```java
+    package com.example.multiactivityapp;
+
+    import android.content.Intent; // Importar Intent
+    import android.os.Bundle;
+    import android.view.View;
+    import android.widget.Button;
+
+    import androidx.appcompat.app.AppCompatActivity;
+
+    public class MainActivity extends AppCompatActivity {
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+
+            Button buttonGoToSecondActivity = findViewById(R.id.buttonGoToSecondActivity);
+
+            buttonGoToSecondActivity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Crear un Intent para iniciar SecondActivity
+                    Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                    startActivity(intent); // Iniciar la actividad
+                }
+            });
+        }
+    }
+    ```
+
+6.  **Modificar `SecondActivity.java` (Para volver a `MainActivity`):**
+
+      * Obtén la referencia del botón y configura un `OnClickListener`.
+      * Usa `finish()` para cerrar la actividad actual y volver a la anterior en la pila de retroceso.
+
+    <!-- end list -->
+
+    ```java
+    package com.example.multiactivityapp;
+
+    import android.content.Intent;
+    import android.os.Bundle;
+    import android.view.View;
+    import android.widget.Button;
+
+    import androidx.appcompat.app.AppCompatActivity;
+
+    public class SecondActivity extends AppCompatActivity {
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_second);
+
+            Button buttonGoToMainActivity = findViewById(R.id.buttonGoToMainActivity);
+
+            buttonGoToMainActivity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Simplemente cierra esta actividad para volver a la anterior
+                    finish();
+                }
+            });
+        }
+    }
+    ```
+
+7.  **Ejecutar la Aplicación:**
+
+      * Ejecuta la aplicación en tu AVD.
+      * Haz clic en "Ir a Segunda Pantalla" para navegar a `SecondActivity`.
+      * Haz clic en "Volver a Pantalla Principal" (o el botón "Atrás" del emulador) para volver a `MainActivity`.
+
+Este ejercicio te muestra cómo crear múltiples actividades y cómo navegar entre ellas, que es una base fundamental para cualquier aplicación Android más compleja.
+
+-----

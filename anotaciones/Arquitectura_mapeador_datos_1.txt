@@ -1,0 +1,307 @@
+¡Absolutamente\! Con gusto te guiaré a través del proceso de mapear datos desde una base de datos PostgreSQL a tu POJO `Producto` en Java, manteniendo los principios de la arquitectura que hemos estado discutiendo.
+
+-----
+
+### Mapeo de Datos de PostgreSQL a POJO `Producto` en Java
+
+Para mapear datos de una base de datos PostgreSQL a tu POJO `Producto`, utilizaremos la **capa de Datos (Data Layer)** de nuestra arquitectura. Específicamente, nos enfocaremos en:
+
+1.  **JDBC (Java Database Connectivity):** La API estándar de Java para conectar y operar con bases de datos.
+2.  **`ProductoDbMapper`:** Una clase dentro de la capa de datos cuya única responsabilidad es transformar los datos obtenidos de la base de datos (normalmente a través de un `ResultSet` de JDBC) en el POJO `Producto` de tu dominio.
+
+Este enfoque asegura que tu POJO `Producto` (en la capa de Dominio) permanezca completamente ajeno a los detalles de la base de datos, manteniendo la pureza y la testabilidad de tu lógica de negocio.
+
+-----
+
+### Descripción del Proceso
+
+El proceso general para mapear datos de PostgreSQL a tu POJO `Producto` implicará los siguientes pasos dentro de tu capa de datos:
+
+1.  **Conexión a la Base de Datos:** Establecer una conexión con la base de datos PostgreSQL utilizando el driver JDBC correspondiente.
+2.  **Ejecución de la Consulta:** Enviar una consulta SQL (SELECT) a la base de datos para obtener los datos de los productos.
+3.  **Procesamiento del `ResultSet`:** El resultado de la consulta SQL es un objeto `ResultSet`, que es una tabla de datos que puedes iterar fila por fila.
+4.  **Extracción y Mapeo:** Por cada fila en el `ResultSet`, extraer los valores de las columnas y utilizarlos para crear una nueva instancia de tu POJO `Producto`.
+5.  **Cierre de Recursos:** Asegurarse de cerrar la conexión, el `Statement` y el `ResultSet` para liberar recursos.
+
+-----
+
+### Ejemplo de Implementación en Java
+
+A continuación, te muestro un ejemplo con las clases clave involucradas.
+
+#### 1\. Tu POJO `Producto` (sin cambios, reside en `domain/entities/`)
+
+```java
+// src/main/java/com/yourcompany/yourapp/domain/entities/Producto.java
+package com.yourcompany.yourapp.domain.entities;
+
+public class Producto {
+
+    private String id;
+    private String nombre;
+    private String descripcion;
+    private double precio;
+    private int stock;
+    private String codigoErp; // Campo que podría vincularse al ERP
+
+    public Producto() {} // Constructor vacío
+
+    public Producto(String id, String nombre, String descripcion, double precio, int stock, String codigoErp) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.stock = stock;
+        this.codigoErp = codigoErp;
+    }
+
+    // --- Getters y Setters ---
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public double getPrecio() { return precio; }
+    public void setPrecio(double precio) { this.precio = precio; }
+    public int getStock() { return stock; }
+    public void setStock(int stock) { this.stock = stock; }
+    public String getCodigoErp() { return codigoErp; }
+    public void setCodigoErp(String codigoErp) { this.codigoErp = codigoErp; }
+
+    @Override
+    public String toString() {
+        return "Producto{" +
+               "id='" + id + '\'' +
+               ", nombre='" + nombre + '\'' +
+               ", precio=" + precio +
+               ", stock=" + stock +
+               ", codigoErp='" + codigoErp + '\'' +
+               '}';
+    }
+}
+```
+
+#### 2\. La Clase Mapper (`ProductoDbMapper` en `data/mappers/`)
+
+Esta clase es la encargada de la conversión de un `ResultSet` a una instancia de `Producto`.
+
+```java
+// src/main/java/com/yourcompany/yourapp/data/mappers/ProductoDbMapper.java
+package com.yourcompany.yourapp.data.mappers;
+
+import com.yourcompany.yourapp.domain.entities.Producto;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ProductoDbMapper {
+
+    /**
+     * Convierte un ResultSet de SQL en una lista de objetos Producto.
+     * @param resultSet El ResultSet obtenido de la base de datos.
+     * @return Una lista de objetos Producto.
+     * @throws SQLException Si ocurre un error al acceder a los datos del ResultSet.
+     */
+    public List<Producto> toProductoList(ResultSet resultSet) throws SQLException {
+        List<Producto> productos = new ArrayList<>();
+        while (resultSet.next()) { // Itera sobre cada fila del ResultSet
+            productos.add(toProducto(resultSet));
+        }
+        return productos;
+    }
+
+    /**
+     * Convierte la fila actual de un ResultSet en un objeto Producto.
+     * @param resultSet El ResultSet posicionado en la fila actual.
+     * @return Un objeto Producto.
+     * @throws SQLException Si ocurre un error al acceder a los datos del ResultSet.
+     */
+    public Producto toProducto(ResultSet resultSet) throws SQLException {
+        // Asume que las columnas en la base de datos se llaman 'id', 'nombre', 'descripcion', etc.
+        // y que sus tipos son compatibles con los tipos Java.
+        String id = resultSet.getString("id");
+        String nombre = resultSet.getString("nombre");
+        String descripcion = resultSet.getString("descripcion");
+        double precio = resultSet.getDouble("precio");
+        int stock = resultSet.getInt("stock");
+        String codigoErp = resultSet.getString("codigo_erp"); // Ojo con la convención de nombres (snake_case vs camelCase)
+
+        return new Producto(id, nombre, descripcion, precio, stock, codigoErp);
+    }
+}
+```
+
+**Puntos clave del Mapper:**
+
+  * **`resultSet.getString("nombre_columna")`**: Aquí es donde mapeas el nombre de la columna en tu tabla de PostgreSQL a un atributo específico de tu POJO. ¡Asegúrate de que los nombres de las columnas coincidan\! Si en tu base de datos la columna es `codigo_erp`, debes usar `resultSet.getString("codigo_erp")`.
+  * **Tipos de Datos:** El método `get*()` del `ResultSet` debe coincidir con el tipo de datos de la columna en la base de datos y el tipo del atributo en tu POJO (ej., `getDouble()` para un `double`, `getInt()` para un `int`).
+
+#### 3\. El Origen de Datos Remoto (`PostgreSqlDataSource` en `data/datasources/remote/`)
+
+Esta clase encapsula la lógica para interactuar directamente con la base de datos PostgreSQL.
+
+```java
+// src/main/java/com/yourcompany/yourapp/data/datasources/remote/PostgreSqlDataSource.java
+package com.yourcompany.yourapp.data.datasources.remote;
+
+import com.yourcompany.yourapp.data.mappers.ProductoDbMapper;
+import com.yourcompany.yourapp.domain.entities.Producto;
+
+import java.sql.*; // Importar clases JDBC
+import java.util.List;
+
+public class PostgreSqlDataSource {
+
+    private final String DB_URL = "jdbc:postgresql://localhost:5432/your_database_name"; // Cambia esto
+    private final String USER = "your_username"; // Cambia esto
+    private final String PASS = "your_password"; // Cambia esto
+
+    private final ProductoDbMapper productoDbMapper;
+
+    public PostgreSqlDataSource(ProductoDbMapper productoDbMapper) {
+        this.productoDbMapper = productoDbMapper;
+        // Cargar el driver de PostgreSQL (puede no ser necesario en versiones recientes de JDBC)
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println("PostgreSQL JDBC Driver no encontrado. Asegúrate de que esté en el classpath.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Obtiene una lista de todos los productos desde la base de datos PostgreSQL.
+     * @return Una lista de objetos Producto.
+     * @throws SQLException Si ocurre un error de base de datos.
+     */
+    public List<Producto> getAllProductos() throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Producto> productos = null;
+
+        try {
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            String sql = "SELECT id, nombre, descripcion, precio, stock, codigo_erp FROM productos"; // Asume tabla 'productos'
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            // Usar el mapper para convertir el ResultSet a una lista de POJOs Producto
+            productos = productoDbMapper.toProductoList(rs);
+
+        } finally {
+            // Asegurarse de cerrar los recursos en el bloque finally
+            if (rs != null) { try { rs.close(); } catch (SQLException e) { /* log error */ } }
+            if (stmt != null) { try { stmt.close(); } catch (SQLException e) { /* log error */ } }
+            if (conn != null) { try { conn.close(); } catch (SQLException e) { /* log error */ } }
+        }
+        return productos;
+    }
+
+    /**
+     * Obtiene un producto por su ID desde la base de datos PostgreSQL.
+     * @param productId El ID del producto a buscar.
+     * @return El objeto Producto si se encuentra, o null si no.
+     * @throws SQLException Si ocurre un error de base de datos.
+     */
+    public Producto getProductoById(String productId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Producto producto = null;
+
+        try {
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            String sql = "SELECT id, nombre, descripcion, precio, stock, codigo_erp FROM productos WHERE id = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, productId); // Establece el parámetro para el ID
+            rs = stmt.executeQuery();
+
+            if (rs.next()) { // Si se encontró un resultado
+                producto = productoDbMapper.toProducto(rs); // Mapea la fila actual
+            }
+
+        } finally {
+            if (rs != null) { try { rs.close(); } catch (SQLException e) { /* log error */ } }
+            if (stmt != null) { try { stmt.close(); } catch (SQLException e) { /* log error */ } }
+            if (conn != null) { try { conn.close(); } catch (SQLException e) { /* log error */ } }
+        }
+        return producto;
+    }
+}
+```
+
+**Consideraciones para el `PostgreSqlDataSource`:**
+
+  * **Configuración de Conexión:** Debes reemplazar `DB_URL`, `USER` y `PASS` con los datos reales de tu base de datos PostgreSQL. En una aplicación Android, esta información a menudo se gestiona de forma segura (por ejemplo, a través de configuraciones inyectadas por Dagger/Hilt, no hardcodeadas).
+  * **Manejo de Excepciones:** Se utiliza un bloque `try-finally` para asegurar que los recursos (Connection, Statement, ResultSet) se cierren correctamente, incluso si ocurre una excepción.
+  * **`PreparedStatement`:** Se recomienda encarecidamente usar `PreparedStatement` para consultas con parámetros. Esto previene ataques de inyección SQL y mejora el rendimiento.
+  * **Asincronía:** En una aplicación Android, las operaciones de base de datos no deben realizarse en el hilo principal (UI thread) para evitar bloqueos y la temida "Application Not Responding" (ANR). Deberías ejecutar estos métodos de `PostgreSqlDataSource` en un hilo separado o usando Corrutinas (Kotlin) / RxJava (Java) / `ExecutorService`.
+
+#### 4\. Archivo `build.gradle` (dependencia del driver JDBC)
+
+Para que tu aplicación Java pueda conectarse a PostgreSQL, necesitas añadir el driver JDBC de PostgreSQL como dependencia en tu proyecto.
+
+```gradle
+// build.gradle (Module: app)
+dependencies {
+    // ... otras dependencias de Android
+
+    // PostgreSQL JDBC Driver
+    // Asegúrate de usar la versión compatible con tu JDK y PostgreSQL
+    implementation 'org.postgresql:postgresql:42.7.3' // Consulta Maven Central para la última versión
+}
+```
+
+-----
+
+### Cómo encaja esto en la Arquitectura
+
+  * **POJO `Producto`:** Reside en la **Capa de Dominio**. Es puro y no tiene idea de JDBC ni de bases de datos.
+  * **`ProductoDbMapper`:** Reside en la **Capa de Datos** (subdirectorio `mappers`). Su rol es traducir los datos de la base de datos (ResultSet) a los POJOs de dominio.
+  * **`PostgreSqlDataSource`:** Reside en la **Capa de Datos** (subdirectorio `datasources/remote`). Es el punto de contacto directo con la base de datos PostgreSQL. Utiliza el `ProductoDbMapper` para la conversión.
+  * **`ProductosRepository` (Interfaz y Implementación):** Aquí es donde la capa de Dominio (Casos de Uso) interactúa con la capa de Datos. Tu `ProductosRepository` tendrá un método como `getProductos()`, el cual llamará a `postgreSqlDataSource.getAllProductos()`. Esto es crucial para la abstracción.
+
+**Ejemplo de cómo el `Repository` usaría el `DataSource` (solo un snippet):**
+
+```java
+// src/main/java/com/yourcompany/yourapp/data/repositories/impl/ProductoRepositoryImpl.java
+package com.yourcompany.yourapp.data.repositories.impl;
+
+import com.yourcompany.yourapp.data.datasources.remote.PostgreSqlDataSource;
+import com.yourcompany.yourapp.domain.entities.Producto;
+import com.yourcompany.yourapp.domain.repositories.ProductoRepository; // Interfaz en dominio
+
+import java.util.List;
+import java.sql.SQLException; // Manejo de excepciones
+
+public class ProductoRepositoryImpl implements ProductoRepository {
+
+    private final PostgreSqlDataSource remoteDataSource;
+    // Podrías tener un LocalDataSource también para caché si fuera necesario
+
+    public ProductoRepositoryImpl(PostgreSqlDataSource remoteDataSource) {
+        this.remoteDataSource = remoteDataSource;
+    }
+
+    @Override
+    public List<Producto> getProductos() throws Exception { // Podrías definir una excepción más específica del dominio
+        try {
+            return remoteDataSource.getAllProductos();
+        } catch (SQLException e) {
+            // Aquí puedes mapear la SQLException a una excepción de dominio más genérica
+            // Por ejemplo, throw new NetworkException("Error al conectar con la base de datos", e);
+            throw new Exception("Error al obtener productos de la base de datos: " + e.getMessage(), e);
+        }
+    }
+
+    // ... otros métodos como getProductoById, saveProducto, etc.
+}
+```
+
+Al seguir este patrón, tu lógica de negocio (en los Casos de Uso) solo interactúa con el `ProductoRepository`, sin saber que detrás hay una base de datos PostgreSQL y JDBC. Si en el futuro decides cambiar a una base de datos diferente o incluso a una API REST, solo necesitarás modificar el `PostgreSqlDataSource` (o crear un nuevo `ApiDataSource`) y el `ProductoDbMapper`, sin afectar la capa de Dominio o Presentación.
+
+¿Te gustaría que profundicemos en algún aspecto, como el manejo de excepciones asíncronas o la inyección de dependencias para estos componentes?

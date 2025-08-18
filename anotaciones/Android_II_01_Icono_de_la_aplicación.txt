@@ -1,0 +1,53 @@
+Un buen ícono es lo primero que ve un usuario y es crucial para la identidad de tu aplicación. Te daré un ejemplo práctico de cómo crear y probar un ícono en Android Studio. El proceso se realiza directamente en el IDE, lo que hace que sea muy sencillo.
+
+---
+
+### Paso 1: Abrir el Asistente de íconos
+Para crear un ícono de aplicación, no necesitas herramientas externas. Android Studio tiene un asistente integrado.
+
+1.  Abre tu proyecto en **Android Studio**.
+2.  En la vista del proyecto (Project view), haz clic derecho en la carpeta **`res`**.
+3.  Selecciona **`New`** > **`Image Asset`**.
+
+---
+
+### Paso 2: Configurar las opciones del ícono
+Se abrirá la ventana del asistente **Image Asset**. Aquí puedes personalizar tu ícono.
+
+1.  **Icon Type:** Asegúrate de que esté seleccionado **`Launcher Icons (Adaptive and Legacy)`**. Esto te permite crear íconos que se adapten a la forma que defina el fabricante del dispositivo (redondos, cuadrados, etc.).
+2.  **Name:** Deja el nombre predeterminado, **`ic_launcher`**.
+3.  **Foreground Layer (Capa frontal):**
+    * Aquí puedes elegir la imagen principal de tu ícono. Selecciona **`Clip Art`** y haz clic en el ícono para abrir el selector.
+    * Busca uno que te guste, como el ícono de una lupa o una estrella, y haz clic en **`OK`**.
+    * Puedes ajustar el tamaño (`Resize`) si lo deseas.
+    * **Color:** Cambia el color del ícono para que coincida con tu diseño.
+4.  **Background Layer (Capa de fondo):**
+    * Selecciona **`Color`** como tipo de fondo.
+    * Haz clic en el cuadro de color y elige un color de fondo para el ícono.
+5.  **Opciones avanzadas (Legacy and Round Icon):**
+    * Puedes ver cómo se verá el ícono en las versiones anteriores de Android y en las que tienen íconos redondos. Asegúrate de que se vea bien en todas las variantes.
+
+---
+
+### Paso 3: Generar y ver el resultado
+Una vez que has configurado todo, el asistente generará los archivos de íconos para las diferentes resoluciones de pantalla.
+
+1.  Haz clic en **`Next`**.
+2.  Verás una lista de los archivos que se van a generar. Haz clic en **`Finish`**.
+
+Android Studio creará automáticamente las carpetas **`mipmap-hdpi`**, **`mipmap-mdpi`**, etc., y colocará el ícono en los tamaños correctos dentro de cada una. Esto es crucial para que tu app se vea bien en cualquier dispositivo.
+
+---
+
+### Paso 4: Probar el ícono en el emulador
+Ahora, el momento de la verdad. Probar el ícono en el emulador es muy sencillo.
+
+1.  Asegúrate de tener un **emulador (AVD)** configurado y listo para usar.
+2.  Ejecuta tu aplicación haciendo clic en el botón verde **`Run 'app'`** (o presionando `Shift` + `F10` en Windows/Linux, o `Control` + `R` en macOS).
+3.  El emulador se iniciará y la aplicación se instalará.
+4.  Una vez instalada, navega a la pantalla de inicio o al cajón de aplicaciones del emulador.
+5.  **¡Verás tu nuevo ícono de aplicación!**
+
+Este proceso no solo te ayuda a crear un ícono, sino que también te familiariza con el manejo de recursos y la forma en que Android gestiona los activos gráficos para diferentes dispositivos.
+
+Si tienes problemas o quieres probar con una imagen personalizada, el proceso es similar. En lugar de **`Clip Art`**, seleccionarías **`Path`** y elegirías un archivo de imagen (`.png` o `.svg`) que tengas en tu computadora.
