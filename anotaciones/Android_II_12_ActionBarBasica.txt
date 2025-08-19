@@ -154,3 +154,54 @@ Aparecerá una ventana de diálogo. En el campo File name, escribe el nombre que
 Haz clic en OK.
 
 Android Studio creará un nuevo archivo llamado main_menu.xml dentro del directorio res/menu, y automáticamente lo abrirá en el editor de código para que puedas empezar a definir tus elementos de menú (como item, group, etc.).
+
+/*** ***/
+Para que el menú sea visible, debes cambiar el tema de tu aplicación en el archivo themes.xml para que use un tema que incluya la barra de acción.
+
+Abre el archivo themes.xml: Lo encontrarás en la carpeta app > res > values.
+
+Modifica el tema principal: Busca el estilo principal de tu aplicación (generalmente llamado Theme.Ej17actionbarbasica) y cambia el atributo parent a un tema compatible con la barra de acción.
+
+
+El contenido de tu archivo main_menu.xml es correcto.
+
+El problema no está en este archivo, sino en la configuración del tema de tu aplicación. El tema actual no está permitiendo que se muestre la barra de acción (Action Bar).
+
+Explicación del problema
+El código que muestras en tu MainActivity.java está preparado para crear y mostrar un menú, pero la segunda imagen que proporcionaste muestra que la barra de acción, que es donde se ubican estos menús, no aparece en la pantalla. Esto sucede cuando el tema de la aplicación hereda de una plantilla que oculta la barra de acción, como NoActionBar.
+
+Solución
+Para que el menú sea visible, debes cambiar el tema de tu aplicación en el archivo themes.xml para que use un tema que incluya la barra de acción.
+
+Abre el archivo themes.xml: Lo encontrarás en la carpeta app > res > values.
+
+Modifica el tema principal: Busca el estilo principal de tu aplicación (generalmente llamado Theme.Ej17actionbarbasica) y cambia el atributo parent a un tema compatible con la barra de acción.
+
+Tema actual (posiblemente)
+
+XML
+
+<style name="Theme.Ej17actionbarbasica" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    </style>
+Tema correcto
+
+XML
+
+<style name="Theme.Ej17actionbarbasica" parent="Theme.AppCompat.Light.DarkActionBar">
+    </style>
+Guarda y ejecuta: Una vez que hayas hecho este cambio, guarda el archivo y ejecuta tu aplicación. Verás que la barra de acción aparece con el título "Mi Aplicación de Prueba" y el icono de configuración que definiste en main_menu.xml.
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+
+    <!--
+    <style name="Base.Theme.Ej17actionbarbasica" parent="Theme.Material3.DayNight.NoActionBar">
+    -->
+    Theme.AppCompat.Light.DarkActionBar
+    <style name="Base.Theme.Ej17actionbarbasica" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.Ej17actionbarbasica" parent="Base.Theme.Ej17actionbarbasica" />
+</resources>

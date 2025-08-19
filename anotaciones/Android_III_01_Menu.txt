@@ -1,0 +1,215 @@
+### Tipos de Menús en Android
+
+Hay tres tipos principales de menús:
+
+1.  **Menú de Opciones (Options Menu):** Es el menú principal de la Activity, ubicado en la Action Bar. Ya lo hemos visto en el primer ejemplo con los botones de acción.
+2.  **Menú de Contexto (Context Menu):** Aparece cuando un usuario realiza un "toque largo" (long press) en una vista específica. Es ideal para acciones relacionadas con esa vista, como eliminar, editar o compartir un elemento en una lista.
+3.  **Menú Pop-up (Pop-up Menu):** Es un menú modal que ancla a una vista específica y aparece cuando el usuario hace clic en ella, por lo general, en un botón.
+
+Te daré ejemplos para los dos últimos.
+
+-----
+
+### 1\. Menú de Contexto (Context Menu)
+
+Este menú se usa comúnmente en `ListView`, `GridView` o `RecyclerView`. Aquí te muestro cómo implementarlo con un `TextView`.
+
+#### Código XML (`res/layout/activity_main.xml`)
+
+Necesitamos una vista a la que el usuario le pueda hacer un "toque largo".
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/textViewContextMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mantén presionado para ver el menú de contexto"
+        android:padding="20dp"
+        android:background="#DDDDDD" />
+
+</LinearLayout>
+```
+
+#### Archivo de Menú XML (`res/menu/context_menu.xml`)
+
+Crea un archivo de menú para el contenido.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/context_edit"
+        android:title="Editar" />
+    <item
+        android:id="@+id/context_delete"
+        android:title="Eliminar" />
+</menu>
+```
+
+#### Código Java (`MainActivity.java`)
+
+```java
+package com.example.menuexamples;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TextView textViewContextMenu = findViewById(R.id.textViewContextMenu);
+
+        // 1. Registra la vista para el menú de contexto
+        registerForContextMenu(textViewContextMenu);
+    }
+
+    // 2. Infla el menú de contexto
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.context_menu, menu);
+    }
+
+    // 3. Maneja los clics en los elementos del menú de contexto
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.context_edit) {
+            Toast.makeText(this, "Opción 'Editar' seleccionada", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (item.getItemId() == R.id.context_delete) {
+            Toast.makeText(this, "Opción 'Eliminar' seleccionada", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+}
+```
+
+#### Explicación
+
+  * **`registerForContextMenu(View view)`**: En `onCreate()`, registramos la vista que activará el menú de contexto.
+  * **`onCreateContextMenu(...)`**: Este método se invoca cuando el usuario realiza el "toque largo". Aquí inflamos el archivo de menú (`context_menu.xml`).
+  * **`onContextItemSelected(...)`**: Se activa cuando se selecciona un elemento del menú de contexto. Usamos `item.getItemId()` para identificar qué opción fue presionada.
+
+-----
+
+### 2\. Menú Pop-up (Pop-up Menu)
+
+Este menú es ideal para un botón que revela opciones secundarias.
+
+#### Código XML (`res/layout/activity_main.xml`)
+
+Agregamos un botón para activar el menú pop-up.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <Button
+        android:id="@+id/popupMenuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mostrar Menú Pop-up" />
+
+</LinearLayout>
+```
+
+#### Archivo de Menú XML (`res/menu/popup_menu.xml`)
+
+Crea un archivo de menú para el contenido del pop-up.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/popup_copy"
+        android:title="Copiar" />
+    <item
+        android:id="@+id/popup_paste"
+        android:title="Pegar" />
+</menu>
+```
+
+#### Código Java (`MainActivity.java`)
+
+```java
+package com.example.menuexamples;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.PopupMenu;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button popupMenuButton = findViewById(R.id.popupMenuButton);
+
+        popupMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 1. Crea una instancia de PopupMenu y la ancla a la vista
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, v);
+                // 2. Infla el archivo de menú en la instancia
+                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+
+                // 3. Asigna un oyente para manejar los clics
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.popup_copy) {
+                            Toast.makeText(MainActivity.this, "Opción 'Copiar' seleccionada", Toast.LENGTH_SHORT).show();
+                            return true;
+                        } else if (item.getItemId() == R.id.popup_paste) {
+                            Toast.makeText(MainActivity.this, "Opción 'Pegar' seleccionada", Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                // 4. Muestra el menú
+                popupMenu.show();
+            }
+        });
+    }
+}
+```
+
+#### Explicación
+
+1.  **`new PopupMenu(context, view)`**: Creas el menú pop-up. El segundo parámetro, `v`, es la vista a la que el menú se "ancla" y de la cual aparecerá.
+2.  **`popupMenu.getMenuInflater().inflate(...)`**: Infla el archivo de menú (`popup_menu.xml`) en la instancia del `PopupMenu`.
+3.  **`popupMenu.setOnMenuItemClickListener(...)`**: Estableces un oyente para que se ejecute cuando un usuario haga clic en un elemento.
+4.  **`popupMenu.show()`**: Muestra el menú pop-up.
+
+Ambos ejemplos te dan una base sólida para implementar menús de diferentes tipos en Android. Recuerda siempre definir el menú en un archivo XML por separado para mantener tu código limpio y organizado.

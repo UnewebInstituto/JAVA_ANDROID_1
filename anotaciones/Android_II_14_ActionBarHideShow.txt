@@ -1,0 +1,114 @@
+**Ocultar y mostrar la Action Bar** programáticamente en Java. Esta funcionalidad es útil en aplicaciones donde necesitas más espacio en la pantalla o quieres ofrecer una experiencia de visualización inmersiva, como en galerías de fotos o reproductores de video.
+
+### Ocultar y Mostrar la Action Bar
+
+La clave para controlar la Action Bar está en el objeto **`ActionBar`**. Puedes obtener una instancia de este objeto en tu `Activity` y luego usar sus métodos `hide()` y `show()`.
+
+A continuación, te presento un ejemplo completo que muestra cómo alternar la visibilidad de la Action Bar cuando el usuario hace clic en la pantalla.
+
+-----
+
+### Código Java (`MainActivity.java`)
+
+```java
+package com.example.myactionbarapp;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ActionBar actionBar;
+    private boolean isActionBarVisible = true;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Obtener la instancia de la Action Bar
+        actionBar = getSupportActionBar();
+
+        // Obtener el botón de la vista
+        Button toggleButton = findViewById(R.id.toggleButton);
+
+        // Asignar un clic al botón para ocultar/mostrar la Action Bar
+        toggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isActionBarVisible) {
+                    // Si está visible, la ocultamos
+                    if (actionBar != null) {
+                        actionBar.hide();
+                        isActionBarVisible = false;
+                    }
+                } else {
+                    // Si está oculta, la mostramos
+                    if (actionBar != null) {
+                        actionBar.show();
+                        isActionBarVisible = true;
+                    }
+                }
+            }
+        });
+    }
+}
+```
+
+-----
+
+### Explicación del Código
+
+1.  **`private ActionBar actionBar;`**: Declaramos una variable de tipo `ActionBar` para guardar la referencia a la Action Bar.
+2.  **`private boolean isActionBarVisible = true;`**: Usamos una variable booleana para llevar un registro del estado actual de la Action Bar (si está visible u oculta).
+3.  **`actionBar = getSupportActionBar();`**: En el método `onCreate()`, obtenemos la instancia de la Action Bar. Es importante usar `getSupportActionBar()` porque estamos usando una `AppCompatActivity`, que proporciona compatibilidad con versiones anteriores de Android.
+4.  **`toggleButton.setOnClickListener(...)`**: Asignamos un oyente de clic a un botón que hemos creado en nuestra vista (`activity_main.xml`).
+5.  **`actionBar.hide()` y `actionBar.show()`**: Estos son los dos métodos clave.
+      * `actionBar.hide()`: Oculta la Action Bar de la pantalla.
+      * `actionBar.show()`: Muestra la Action Bar.
+6.  **`isActionBarVisible`**: Alternamos el valor de esta variable para saber si debemos ocultar o mostrar la barra en el siguiente clic.
+
+-----
+
+### Ejemplo de Diseño de la Vista (`res/layout/activity_main.xml`)
+
+Para que el código anterior funcione, necesitas un `Button` en tu archivo de diseño. Puedes agregar este botón a tu `activity_main.xml`:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ocultar/Mostrar Barra"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+-----
+
+### Resultado
+
+Al ejecutar esta aplicación, verás un botón en el centro de la pantalla.  Cada vez que presiones el botón, la Action Bar en la parte superior de la pantalla desaparecerá o reaparecerá.
+
+
+NOTA:
+MISMAS CONSIDERACIONES PARA EL TEMA:
+<resources xmlns:tools="http://www.w3.org/2001/XMLSchema-instance" tools:schemaLocation="http://www.w3.org/2001/XMLSchema-instance ">
+    <style name="Theme.MyApplication" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        </style>
+</resources>
