@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
   * **`onContextItemSelected(...)`**: Se activa cuando se selecciona un elemento del menú de contexto. Usamos `item.getItemId()` para identificar qué opción fue presionada.
 
 -----
+/* 2 */
 
 ### 2\. Menú Pop-up (Pop-up Menu)
 

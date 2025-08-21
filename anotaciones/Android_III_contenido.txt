@@ -2,7 +2,7 @@ Contenido del Curso de Android III:
 • Menús
 • Menús y Submenús básicos
 • Menús Contextuales
-• Opciones avanzadas
++ Opciones avanzadas
 • Bases de datos:
 • Primeros pasos con SQLite
 • Inserción, actualización y eliminación de registros

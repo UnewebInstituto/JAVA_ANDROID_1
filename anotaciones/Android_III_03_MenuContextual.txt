@@ -1,0 +1,130 @@
+Asumiendo el rol de desarrollador de Android, aquí tienes un ejemplo completo y una descripción detallada de cómo implementar menús contextuales en una aplicación de Android.
+
+-----
+
+## ¿Qué son los Menús Contextuales?
+
+Un **menú contextual** es un menú flotante que aparece cuando un usuario realiza un toque largo (mantener presionado) sobre una vista específica en la interfaz de usuario. A diferencia de los menús de opciones que se muestran en la barra de acción, los menús contextuales son relevantes para la vista sobre la que se invocan, ofreciendo acciones específicas para ese elemento, como "Editar", "Eliminar" o "Copiar".
+
+La implementación consta de tres pasos principales:
+
+1.  **Definir el menú**: Crear un archivo XML para el menú.
+2.  **Registrar la vista**: Indicar a la actividad qué vista activará el menú.
+3.  **Manejar los eventos**: Sobrescribir los métodos necesarios para inflar y responder a las selecciones del menú.
+
+-----
+
+## Ejemplo Completo
+
+Este ejemplo creará un menú contextual para un `TextView`. Cuando el usuario mantenga presionado el texto, aparecerán las opciones "Editar" y "Eliminar".
+
+### 1\. Archivo XML del Menú Contextual
+
+Crea un archivo llamado `context_menu.xml` en la carpeta `res/menu/`.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/context_edit"
+        android:title="Editar" />
+    <item
+        android:id="@+id/context_delete"
+        android:title="Eliminar" />
+</menu>
+```
+
+### 2\. Archivo de Diseño de la Actividad `activity_main.xml`
+
+Define el `TextView` que actuará como disparador del menú contextual. Asegúrate de darle un `id` único.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textViewContextMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mantén presionado para ver el menú contextual"
+        android:padding="20dp"
+        android:background="#E0E0E0"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</LinearLayout>
+```
+
+### 3\. Lógica en `MainActivity.java`
+
+Aquí es donde se implementa la funcionalidad del menú.
+
+```java
+package com.ejemplo.tuaplicacion;
+
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // 1. Obtener la referencia a la vista
+        TextView textViewContextMenu = findViewById(R.id.textViewContextMenu);
+
+        // 2. Registrar la vista para el menú contextual
+        registerForContextMenu(textViewContextMenu);
+    }
+
+    /**
+     * Este método es llamado cuando el usuario realiza un toque largo en la vista registrada.
+     * Aquí se infla el menú contextual.
+     */
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.context_menu, menu);
+    }
+
+    /**
+     * Este método se llama cuando el usuario selecciona un elemento del menú contextual.
+     * Aquí se maneja el evento de clic.
+     */
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.context_edit) {
+            Toast.makeText(this, "Opción 'Editar' seleccionada", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.context_delete) {
+            Toast.makeText(this, "Opción 'Eliminar' seleccionada", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+}
+```
+
+### Explicación del Código:
+
+1.  **`registerForContextMenu(View view)`**: En el método `onCreate()`, se llama a este método para vincular el menú contextual con una vista específica. Al pasar la referencia de `textViewContextMenu`, le indicas a Android que cualquier toque largo sobre esa vista debe activar el menú.
+2.  **`onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)`**: Este es el método donde **inflas el menú**. Se llama automáticamente cuando el usuario realiza un toque largo sobre la vista registrada. Aquí, usas `getMenuInflater().inflate()` para cargar el archivo XML (`R.menu.context_menu`) en el objeto `menu`.
+3.  **`onContextItemSelected(@NonNull MenuItem item)`**: Este método se encarga de **manejar los clics** en el menú. Se llama cada vez que el usuario selecciona una opción del menú contextual. Usando `item.getItemId()`, puedes identificar qué opción se ha seleccionado y ejecutar la lógica correspondiente, como mostrar un `Toast`.
+
+Con este código, cuando ejecutes la aplicación y mantengas presionado el `TextView`, el menú contextual aparecerá con las opciones "Editar" y "Eliminar".

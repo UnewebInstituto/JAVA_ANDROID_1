@@ -1,0 +1,155 @@
+Para crear menús en Android Studio, debes seguir los pasos de creación, inflado y manejo de eventos. Aquí te muestro el proceso para menús básicos con submenús.
+
+### Descripción de la Estructura de Menús
+
+En Android, los menús se definen en archivos XML dentro del directorio `res/menu/`. La estructura es jerárquica:
+
+  * **`<menu>`**: Es el elemento raíz que contiene todos los elementos del menú.
+  * **`<item>`**: Representa un elemento individual en el menú. Los atributos clave son:
+      * `android:id`: Un identificador único para el elemento.
+      * `android:title`: El texto que se muestra en el menú.
+      * `android:icon`: Una imagen que se muestra junto al texto (opcional).
+  * **`<menu>` anidado dentro de `<item>`**: Para crear un **submenú**, anida otro elemento `<menu>` dentro de un `<item>`.
+Claro, aquí tienes el ejemplo completo para crear menús y submenús en Android Studio, incluyendo el archivo `MainActivity.java` y su descripción detallada.
+
+-----
+
+## 1\. Archivo XML del Menú
+
+Primero, creas el archivo de diseño del menú en `res/menu/main_menu.xml`. Este archivo define la estructura de tu menú:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_save"
+        android:title="Guardar" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="Configuración">
+        <menu>
+            <item
+                android:id="@+id/action_profile"
+                android:title="Perfil" />
+            <item
+                android:id="@+id/action_privacy"
+                android:title="Privacidad" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/action_exit"
+        android:title="Salir" />
+
+</menu>
+```
+
+-----
+
+## 2\. Archivo de Diseño de la Actividad `activity_main.xml`
+
+A continuación, necesitas un diseño para la pantalla principal de tu aplicación. El menú se mostrará en la barra de acción de esta actividad.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¡Bienvenido al ejemplo de Menús!"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+</LinearLayout>
+```
+
+-----
+
+## 3\. Lógica en `MainActivity.java`
+
+Finalmente, esta es la clase principal que maneja toda la lógica. Debes sobrescribir dos métodos clave: **`onCreateOptionsMenu()`** para mostrar el menú y **`onOptionsItemSelected()`** para manejar los clics de los usuarios.
+
+```java
+package com.ejemplo.tuaplicacion; // Reemplaza esto con el nombre de tu paquete
+
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Vincula el diseño XML con la actividad
+        setContentView(R.layout.activity_main);
+    }
+
+    /**
+     * Este método es llamado por Android para crear el menú en la barra de acción.
+     * Aquí se infla el archivo XML del menú.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    /**
+     * Este método se llama cada vez que el usuario selecciona un elemento del menú.
+     * Aquí se manejan los eventos de clic para cada ítem.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        // Usa una sentencia if-else para manejar cada opción del menú
+        if (id == R.id.action_save) {
+            Toast.makeText(this, "Opción 'Guardar' seleccionada", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_profile) {
+            Toast.makeText(this, "Submenú 'Perfil' seleccionado", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_privacy) {
+            Toast.makeText(this, "Submenú 'Privacidad' seleccionado", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_exit) {
+            Toast.makeText(this, "Opción 'Salir' seleccionada", Toast.LENGTH_SHORT).show();
+            finish(); // Cierra la actividad
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+}
+```
+
+### Explicación del Proceso:
+
+1.  **`setContentView(R.layout.activity_main);`**: Dentro de **`onCreate()`**, esta línea conecta tu código Java con el archivo de diseño XML (`activity_main.xml`). Es el primer paso para mostrar cualquier cosa en la pantalla.
+2.  **`onCreateOptionsMenu(Menu menu)`**: Este método se encarga de **inflar el menú**. Inflar un menú significa leer el archivo XML (`main_menu.xml`) y construir los objetos `MenuItem` correspondientes en la memoria para que Android pueda mostrarlos en la barra de acción.
+3.  **`onOptionsItemSelected(MenuItem item)`**: Este método **escucha los clics** en los elementos del menú. Cuando un usuario toca un ítem, Android pasa el objeto `MenuItem` correspondiente a este método. Usando `item.getItemId()`, puedes identificar qué opción se seleccionó y ejecutar la lógica necesaria (como mostrar un `Toast` o cerrar la actividad).
+
+/*** NOTA: ***/
+Para que el menú se muestre, debes cambiar el tema a uno que incluya una barra de acción.
+
+Opción A: Cambiar el tema en styles.xml
+Cambia el tema padre a uno que no tenga el sufijo .NoActionBar. Por ejemplo:
+
+<style name="Theme.Ejemplo" parent="Theme.Material3.DayNight">
+
+
+
+
+
